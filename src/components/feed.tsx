@@ -1,5 +1,5 @@
 'use client'
-import { allPosts } from "@/app/page";
+import { posts } from '../lib/mock-data';
 import NewPostForm from "./newPostForm";
 import Post from "./post";
 import { MouseEventHandler } from "react";
@@ -10,7 +10,7 @@ interface FeedProps {
 }
 
 function Feed({ communities, onProfileClick }:FeedProps) {
-    const feedPosts = allPosts.filter(post => communities.includes(post.community))
+    const feedPosts = posts.filter(post => communities.includes(post.community))
     const sortedPosts = feedPosts.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
   
     return (

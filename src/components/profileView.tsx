@@ -5,7 +5,8 @@ import { useState } from "react"
 import Post from "./post"
 import { Button } from "./ui/button"
 import { Card, CardHeader } from "./ui/card"
-import { allPosts, UserProps } from "@/app/page"
+import { UserProps } from "@/app/page"
+import { posts } from '../lib/mock-data';
 
 interface ProfileViewProps {
     profile: string,
@@ -16,7 +17,7 @@ interface ProfileViewProps {
 function ProfileView({ profile, currentUser, onProfileClick }: ProfileViewProps) {
     const isCurrentUser = profile === currentUser.name
     const [isFollowing, setIsFollowing] = useState(false)
-    const profilePosts = allPosts.filter(post => post.author === profile)
+    const profilePosts = posts.filter(post => post.author === profile)
     const sortedPosts = profilePosts.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
 
     return (
