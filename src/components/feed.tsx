@@ -2,7 +2,7 @@
 import { posts } from '../lib/mock-data';
 import NewPostForm from "./newPostForm";
 import Post from "./post";
-import { MouseEventHandler } from "react";
+// import { MouseEventHandler } from "react";
 
 interface FeedProps {
     communities: string[],

@@ -17,59 +17,60 @@ const currentUser = {
   ]
 }
 
-const newUsers = [
-  {
-    id: 1,
-    name: "Felipe Ribeiro",
-    avatar: "/placeholder-user.jpg",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    following: 120,
-    followers: 85,
-    classes: [
-      "Compiladores",
-      "Computação Distribuída",
-      "Interação Humano-Computador",
-      "Engenharia de Software",
-      "Metodologia de Pesquisa em Computação",
-      "Projetos Empreendedores",
-      "Teoria dos Grafos"
-    ]
-  },
-  {
-    id: 2,
-    name: "Enzo Koji",
-    avatar: "/placeholder-user.jpg",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    following: 120,
-    followers: 1200,
-    classes: [
-      "Compiladores",
-      "Computação Distribuída",
-      "Interação Humano-Computador",
-      "Engenharia de Software",
-      "Metodologia de Pesquisa em Computação",
-      "Projetos Empreendedores",
-      "Teoria dos Grafos"
-    ]
-  },
-  {
-    id: 3,
-    name: "Yuri Nichimura",
-    avatar: "/placeholder-user.jpg",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    following: 120,
-    followers: 85,
-    classes: [
-      "Compiladores",
-      "Computação Distribuída",
-      "Interação Humano-Computador",
-      "Engenharia de Software",
-      "Metodologia de Pesquisa em Computação",
-      "Projetos Empreendedores",
-      "Teoria dos Grafos"
-    ]
-  },
-]
+// const newUsers = [
+//   {
+//     id: 1,
+//     name: "Felipe Ribeiro",
+//     avatar: "/placeholder-user.jpg",
+//     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+//     following: 120,
+//     followers: 85,
+//     classes: [
+//       "Compiladores",
+//       "Computação Distribuída",
+//       "Interação Humano-Computador",
+//       "Engenharia de Software",
+//       "Metodologia de Pesquisa em Computação",
+//       "Projetos Empreendedores",
+//       "Teoria dos Grafos"
+//     ]
+//   },
+//   {
+//     id: 2,
+//     name: "Enzo Koji",
+//     avatar: "/placeholder-user.jpg",
+//     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+//     following: 120,
+//     followers: 1200,
+//     classes: [
+//       "Compiladores",
+//       "Computação Distribuída",
+//       "Interação Humano-Computador",
+//       "Engenharia de Software",
+//       "Metodologia de Pesquisa em Computação",
+//       "Projetos Empreendedores",
+//       "Teoria dos Grafos"
+//     ]
+//   },
+//   {
+//     id: 3,
+//     name: "Yuri Nichimura",
+//     avatar: "/placeholder-user.jpg",
+//     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+//     following: 120,
+//     followers: 85,
+//     classes: [
+//       "Compiladores",
+//       "Computação Distribuída",
+//       "Interação Humano-Computador",
+//       "Engenharia de Software",
+//       "Metodologia de Pesquisa em Computação",
+//       "Projetos Empreendedores",
+//       "Teoria dos Grafos"
+//     ]
+//   },
+// ]
+
 
 const communities = [
   "Compiladores",

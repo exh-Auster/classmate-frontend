@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Sidebar from '@/components/sidebar'
 import MainContent from '@/components/mainContent'
-import { users, currentUser, communities } from '../lib/mock-data';
+import { /*users,*/ currentUser/*, communities*/ } from '../lib/mock-data';
 
 export interface PostProps{
   id: number,
