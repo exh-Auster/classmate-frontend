@@ -4,6 +4,9 @@ import { useState } from 'react'
 import Sidebar from '@/components/sidebar'
 import MainContent from '@/components/mainContent'
 import { /*users,*/ currentUser/*, communities*/ } from '../lib/mock-data';
+import { fetchData } from '../lib/data'
+
+fetchData()
 
 export interface PostProps{
   id: number,
