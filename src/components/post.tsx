@@ -49,7 +49,7 @@ function Post({ post, onProfileClick }: IPostProps) {
                         <MessageSquare className="h-4 w-4 mr-1" /> {post.comments.length}
                     </Button>
                     <Button variant="ghost" size="sm">
-                        <Share2 className="h-4 w-4 mr-1" /> Share
+                        <Share2 className="h-4 w-4 mr-1" /> Compartilhar
                     </Button>
                 </div>
                 <div className="w-full flex items-center space-x-2">
@@ -69,10 +69,10 @@ function Post({ post, onProfileClick }: IPostProps) {
                 </div>
                 {post.comments.length > 0 && (
                     <div className="w-full mt-4">
-                        <h4 className="font-semibold mb-2">Recent Comments</h4>
+                        <h4 className="font-semibold mb-2">Comentários</h4>
                         {post.comments.map((comment, index) => (
-                            <div key={index} className="mb-2 flex items-start">
-                                <Avatar className="mr-2 h-6 w-6">
+                            <div key={index} className="mb-4 flex items-start">
+                                <Avatar className="mr-2">
                                     <AvatarImage src={comment.authorAvatar} alt={comment.author} />
                                     <AvatarFallback>{comment.author[0]}</AvatarFallback>
                                 </Avatar>

@@ -44,7 +44,7 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
                     </div>
                     <div className="flex items-center space-x-2">
                         {fixedCommunity ? (
-                            <div className="text-sm text-gray-500">Posting to: {fixedCommunity}</div>
+                            <div className="text-sm text-gray-500">Publicando em: {fixedCommunity}</div>
                         ) : (
                             <Select>
                                 <SelectTrigger className="w-[180px]">
