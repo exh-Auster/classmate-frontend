@@ -5,19 +5,20 @@ import { useState } from "react"
 import Post from "./post"
 import { Button } from "./ui/button"
 import { Card, CardHeader } from "./ui/card"
-import { UserProps } from "@/app/page"
-import { posts } from '../lib/mock-data';
+import { PostProps, UserProps } from "@/app/page"
+// import { posts } from '../lib/mock-data';
 
 interface ProfileViewProps {
     profile: string,
     currentUser: UserProps,
+    posts: PostProps[],
     onProfileClick: (param: string) => void
 }
 
-function ProfileView({ profile, currentUser, onProfileClick }: ProfileViewProps) {
+function ProfileView({ profile, currentUser, onProfileClick, posts }: ProfileViewProps) {
     const isCurrentUser = profile === currentUser.name
     const [isFollowing, setIsFollowing] = useState(false)
-    const profilePosts = posts.filter(post => post.author === profile)
+    const profilePosts = posts // .filter(post => post.author === profile)
     const sortedPosts = profilePosts.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
 
     return (
@@ -25,7 +26,7 @@ function ProfileView({ profile, currentUser, onProfileClick }: ProfileViewProps)
             <Card className="mb-6">
                 <CardHeader className="flex flex-row items-center gap-4">
                     <Avatar className="w-20 h-20">
-                        <AvatarImage src={currentUser.avatar} alt={profile} />
+                        {/* <AvatarImage src={currentUser.avatar} alt={profile} /> */}
                         <AvatarFallback>{profile[0]}</AvatarFallback>
                     </Avatar>
                     <div>
@@ -68,7 +69,7 @@ function ProfileView({ profile, currentUser, onProfileClick }: ProfileViewProps)
                     )}
                 </CardHeader>
             </Card>
-            <h3 className="text-xl font-semibold mb-4">Recent Posts</h3>
+            <h3 className="text-xl font-semibold mb-4">Publicações Recentes</h3>
             <div>
                 {sortedPosts.map((post) => (
                     <Post key={post.id} post={post} onProfileClick={onProfileClick} />

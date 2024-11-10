@@ -33,7 +33,7 @@ function MainContent({ view, community, profile, currentUser, onProfileClick, se
             </div>
             {view === 'feed' && <Feed communities={currentUser.classes} onProfileClick={onProfileClick} />}
             {view === 'community' && <CommunityView community={community} onProfileClick={onProfileClick} />}
-            {view === 'profile' && <ProfileView profile={profile} currentUser={currentUser} onProfileClick={onProfileClick} />}
+            {view === 'profile' && <ProfileView profile={profile} currentUser={currentUser} onProfileClick={onProfileClick} posts={currentUser.posts ?? []} />}
         </div>
     )
 }
