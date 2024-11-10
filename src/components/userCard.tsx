@@ -1,9 +1,9 @@
 'use client'
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, /*AvatarImage,*/ AvatarFallback } from "@/components/ui/avatar"
 import { Card, CardHeader } from "./ui/card"
 import { UserProps } from "@/app/page"
 import { MouseEventHandler } from "react"
-import { currentUser } from "@/app/page"
+// import { currentUser } from "@/app/page"
 
 interface UserCardProps {
     user: UserProps,

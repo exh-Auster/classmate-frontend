@@ -1,5 +1,5 @@
 'use client'
-import { Home, Settings } from "lucide-react"
+import { Home/*, Settings*/ } from "lucide-react"
 import { Button } from "./ui/button"
 import UserCard from "./userCard"
 import { UserProps } from "@/app/page"

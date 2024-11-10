@@ -1,5 +1,5 @@
 'use client'
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, /* AvatarImage,*/ AvatarFallback } from "@/components/ui/avatar"
 import { Edit, UserMinus, UserPlus } from "lucide-react"
 import { useState } from "react"
 import Post from "./post"
