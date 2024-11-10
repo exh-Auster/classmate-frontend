@@ -3,7 +3,6 @@ import { Home/*, Settings*/ } from "lucide-react"
 import { Button } from "./ui/button"
 import UserCard from "./userCard"
 import { UserProps } from "@/app/page"
-import { communities } from '../lib/mock-data'
 
 interface SideBarProps {
     user: UserProps,
@@ -23,14 +22,14 @@ function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick }: SideBa
             <nav className="flex-grow">
                 <h2 className="text-lg font-semibold mb-2">Suas Disciplinas</h2>
                 <ul>
-                    {communities.map((className) => (
-                        <li key={className} className="mb-2">
+                    {user.groups.map((group) => (
+                        <li key={group.id} className="mb-2">
                             <Button
                                 variant="ghost"
                                 className="w-full justify-start"
-                                onClick={() => onCommunityClick(className)}
+                                onClick={() => onCommunityClick(String(group.id))}
                             >
-                                {className}
+                                {group.name}
                             </Button>
                         </li>
                     ))}

@@ -31,8 +31,7 @@ function MainContent({ view, community, profile, currentUser, onProfileClick, se
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
                 </div>
             </div>
-            {/* {view === 'feed' && <Feed communities={currentUser.groups.map(group => group.name)} onProfileClick={onProfileClick} />} */}
-            {view === 'feed' && <Feed communities={["a", "b"]} onProfileClick={onProfileClick} />}
+            {view === 'feed' && <Feed communities={currentUser.groups} onProfileClick={onProfileClick} />}
             {view === 'community' && <CommunityView community={community} onProfileClick={onProfileClick} />}
             {view === 'profile' && <ProfileView profile={profile} currentUser={currentUser} onProfileClick={onProfileClick} posts={currentUser.posts ?? []} />}
         </div>

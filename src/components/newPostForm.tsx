@@ -7,9 +7,10 @@ import { Button } from "./ui/button"
 import { Card, CardContent } from "./ui/card"
 import { Textarea } from "./ui/textarea"
 import { Image } from "lucide-react"
+import { Group } from "@/client"
 
 interface NewPostFormProps {
-    communities: string[],
+    communities: Group[],
     fixedCommunity?: string | null
 }
 
@@ -52,8 +53,8 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
                                 </SelectTrigger>
                                 <SelectContent>
                                     {communities.map((community) => (
-                                        <SelectItem key={community} value={community}>
-                                            {community}
+                                        <SelectItem key={community.id} value={community.name}>
+                                            {community.name}
                                         </SelectItem>
                                     ))}
                                 </SelectContent>
