@@ -3,6 +3,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Card, CardHeader } from "./ui/card"
 import { UserProps } from "@/app/page"
 import { MouseEventHandler } from "react"
+import { currentUser } from "@/app/page"
 
 interface UserCardProps {
     user: UserProps,
@@ -14,7 +15,7 @@ function UserCard({ user, onClick }: UserCardProps) {
         <Card className="cursor-pointer" onClick={onClick}>
             <CardHeader className="flex flex-row items-center gap-4">
                 <Avatar>
-                    <AvatarImage src={user.avatar} alt={user.name} />
+                    {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
                     <AvatarFallback>{user.name[0]}</AvatarFallback>
                 </Avatar>
                 <div>
