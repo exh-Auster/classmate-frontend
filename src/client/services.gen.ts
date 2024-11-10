@@ -5,7 +5,7 @@ import type { HealthcheckGetError, HealthcheckGetResponse, GetAllUsersUserGetErr
 
 export const client = createClient(createConfig());
 client.setConfig({
-    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL
+    baseURL: "https://classmate-back.vercel.app"
   })
 
 
