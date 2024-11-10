@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { client } from "../client/services.gen";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,6 +24,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  client.setConfig({
+    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL
+  })
+
   return (
     <html lang="en">
       <body
