@@ -3,6 +3,7 @@ import { Home, Settings } from "lucide-react"
 import { Button } from "./ui/button"
 import UserCard from "./userCard"
 import { UserProps } from "@/app/page"
+import { communities } from '../lib/mock-data'
 
 interface SideBarProps {
     user: UserProps,
@@ -10,7 +11,6 @@ interface SideBarProps {
     onProfileClick: (param: string) => void,
     onHomeClick: () => void
 }
-
 
 function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick }: SideBarProps) {
     return (
@@ -23,7 +23,7 @@ function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick }: SideBa
             <nav className="flex-grow">
                 <h2 className="text-lg font-semibold mb-2">Suas Disciplinas</h2>
                 <ul>
-                    {user.classes.map((className) => (
+                    {communities.map((className) => (
                         <li key={className} className="mb-2">
                             <Button
                                 variant="ghost"
@@ -36,10 +36,6 @@ function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick }: SideBa
                     ))}
                 </ul>
             </nav>
-            <Button variant="outline" className="mt-auto">
-                <Settings className="mr-2 h-4 w-4" />
-                Configurações
-            </Button>
         </div>
     )
 }
