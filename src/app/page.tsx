@@ -90,7 +90,7 @@ export default function EduSocial() {
   useEffect(() => {
     async function fetchData() {
       const user = await fetchCurrentUser()
-      setCurrentUser(user)
+      setCurrentUser(user ?? null) // TODO 
     }
     fetchData();
   }, []);

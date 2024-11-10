@@ -10,7 +10,7 @@ interface FeedProps {
 }
 
 function Feed({ communities, onProfileClick }:FeedProps) {
-    const feedPosts = posts.filter(post => communities.includes(post.community))
+    const feedPosts = posts.filter(post => communities.includes(post.author)) // TODO
     const sortedPosts = feedPosts.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
   
     return (

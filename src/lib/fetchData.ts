@@ -1,5 +1,5 @@
 import { GroupProps, PostProps, UserProps } from "@/app/page";
-import { Group, User } from "@/client";
+import { Group, Post, User } from "@/client";
 import { getGroupByIdGroupGroupIdGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet } from "@/client/services.gen";
 
 export let currentUser: UserProps

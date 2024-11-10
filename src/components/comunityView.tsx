@@ -8,7 +8,7 @@ interface ComunityViewProps{
 }
 
 function CommunityView({ community, onProfileClick }:ComunityViewProps) {
-    const communityPosts = posts.filter(post => post.community === community)
+    const communityPosts = posts.filter(post => post.community === 0) // TODO
     const sortedPosts = communityPosts.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
   
     return (
