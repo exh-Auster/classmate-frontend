@@ -2,20 +2,28 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { ExternalLink, ThumbsUp, MessageSquare, Share2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "./ui/button"
 import { Card, CardHeader, CardContent, CardFooter } from "./ui/card"
 import Link from "next/link"
-import { PostProps } from "@/app/page"
+import { fetchGroup, PostProps } from "@/app/page"
+import { formatDistanceToNow } from "date-fns";
 
 interface IPostProps {
     post: PostProps,
-    onProfileClick: (param:string) => void,
+    onProfileClick: (param: string) => void,
 }
 
 function Post({ post, onProfileClick }: IPostProps) {
     const [newComment, setNewComment] = useState('')
+    const [communityName, setCommunityName] = useState<string | undefined>('');
 
+    useEffect(() => {
+        fetchGroup(post.community).then(group => {
+            setCommunityName(group?.name);
+        });
+    }, [post.community]);
+    
     return (
         <Card className="mb-4">
             <CardHeader>
@@ -28,7 +36,7 @@ function Post({ post, onProfileClick }: IPostProps) {
                         <Link href="#" onClick={() => onProfileClick(post.author)} className="font-semibold hover:underline">
                             {post.author}
                         </Link>
-                        <p className="text-sm text-gray-500">{post.community} • {post.time}</p>
+                        <p className="text-sm text-gray-500">{ communityName } • {formatDistanceToNow(new Date(post.time), { addSuffix: true })}</p>
                     </div>
                 </div>
             </CardHeader>
