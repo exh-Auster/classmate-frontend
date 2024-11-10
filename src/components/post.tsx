@@ -6,8 +6,9 @@ import { useState, useEffect } from "react"
 import { Button } from "./ui/button"
 import { Card, CardHeader, CardContent, CardFooter } from "./ui/card"
 import Link from "next/link"
-import { fetchGroup, PostProps } from "@/app/page"
+import { PostProps } from "@/app/page"
 import { formatDistanceToNow } from "date-fns";
+import { fetchGroup } from "../lib/fetchData"
 
 interface IPostProps {
     post: PostProps,
