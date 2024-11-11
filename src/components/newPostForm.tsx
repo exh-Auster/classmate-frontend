@@ -8,6 +8,8 @@ import { Card, CardContent } from "./ui/card"
 import { Textarea } from "./ui/textarea"
 import { Image } from "lucide-react"
 import { Group } from "@/client"
+import { createPostPostPost } from "@/client/services.gen"
+import { currentUser } from "@/lib/fetchData"
 
 interface NewPostFormProps {
     communities: Group[],
@@ -17,6 +19,28 @@ interface NewPostFormProps {
 function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
     const [postContent, setPostContent] = useState('')
     const [postLink, setPostLink] = useState('')
+    const [selectedCommunity, setSelectedCommunity] = useState<string | null>(fixedCommunity)
+
+    const handleSubmit = async () => {
+        if (!postContent.trim()) return
+
+        const newPost = {
+            body: postContent,
+            external_content_url: postLink || null,
+            author_id: currentUser.id,
+            group_id: selectedCommunity ? communities.find(c => c.name === selectedCommunity)?.id ?? undefined : undefined,
+            timestamp: new Date().toISOString(),
+        }
+
+        try {
+            await createPostPostPost({ body: newPost })
+            // Optionally reset form or handle success
+            setPostContent('')
+            setPostLink('')
+        } catch (error) {
+            console.error("Error creating post:", error)
+        }
+    }
 
     return (
         <Card>
@@ -47,7 +71,7 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
                         {fixedCommunity ? (
                             <div className="text-sm text-gray-500">Publicando em: {fixedCommunity}</div>
                         ) : (
-                            <Select>
+                            <Select onValueChange={(value) => setSelectedCommunity(value)}>
                                 <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="Selecionar disciplina" />
                                 </SelectTrigger>
@@ -60,7 +84,7 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
                                 </SelectContent>
                             </Select>
                         )}
-                        <Button disabled={!postContent.trim()}>Publicar</Button>
+                        <Button disabled={!postContent.trim()} onClick={handleSubmit}>Publicar</Button>
                     </div>
                 </div>
             </CardContent>
