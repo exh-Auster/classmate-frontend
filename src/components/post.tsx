@@ -10,6 +10,10 @@ import { PostProps } from "@/app/page"
 import { formatDistanceToNow } from "date-fns";
 import { fetchGroup } from "../lib/fetchData"
 
+import { createCommentPostPostIdCommentPost } from '@/client/services.gen';
+import { Comment } from '@/client/types.gen';
+import { currentUser } from '@/lib/fetchData';
+
 interface IPostProps {
     post: PostProps,
     onProfileClick: (param: string) => void,
@@ -69,11 +73,31 @@ function Post({ post, onProfileClick }: IPostProps) {
                         onChange={(e) => setNewComment(e.target.value)}
                         className="flex-grow"
                     />
-                    <Button size="sm" disabled={!newComment.trim()} onClick={() => {
-                        // TODO
-                        setNewComment('')
-                    }}>
-                        Enviar
+                    <Button
+                    size="sm"
+                    disabled={!newComment.trim()}
+                    onClick={async () => {
+                        if (!newComment.trim()) return;
+
+                        const comment: Comment = {
+                        body: newComment,
+                        author_id: currentUser.id,
+                        post_id: post.id,
+                        timestamp: new Date().toISOString(),
+                        };
+
+                        try {
+                        await createCommentPostPostIdCommentPost({
+                            body: comment,
+                            path: { post_id: post.id },
+                        });
+                        setNewComment('');
+                        } catch (error) {
+                        console.error('Error creating comment:', error);
+                        }
+                    }}
+                    >
+                    Enviar
                     </Button>
                 </div>
                 {post.comments.length > 0 && (
