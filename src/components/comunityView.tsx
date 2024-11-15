@@ -8,7 +8,7 @@ import { PostProps } from '@/app/page'
 
 interface ComunityViewProps {
     community: number,
-    onProfileClick: (param: string) => void
+    onProfileClick: (param: number) => void
 }
 
 function CommunityView({ community, onProfileClick }: ComunityViewProps) {
@@ -43,7 +43,7 @@ function CommunityView({ community, onProfileClick }: ComunityViewProps) {
     }, [community])
 
     const sortedPosts = communityPosts.sort(
-        (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()
+        (a, b) => new Date(b.timestamp ?? "").getTime() - new Date(a.timestamp ?? "").getTime()
     )
 
     return (

@@ -41,9 +41,9 @@ export async function fetchCurrentUser() {
         author: userData.name,
         authorAvatar: "",
         community: post.group_id ?? 0,
-        time: post.timestamp ?? "",
-        content: post.body,
-        link: post.external_content_url,
+        timestamp: post.timestamp ?? "",
+        body: post.body,
+        external_content_url: post.external_content_url,
         likes: 0,
         comments: []
       }));
@@ -111,8 +111,8 @@ export async function fetchCurrentUser() {
         authorAvatar: "",
         community: post.group_id ?? 0,
         time: post.timestamp ?? "",
-        content: post.body,
-        link: post.external_content_url,
+        body: post.body,
+        external_content_url: post.external_content_url,
         likes: 0,
         comments: []
       }));
@@ -177,24 +177,57 @@ export async function fetchGroup(group_id: number) {
       
   
       const groupPostsData = groupPostsResponse.data as Post[];
-  
       
       const groupPosts: PostProps[] = await Promise.all(groupPostsData.map(async post => {        
         const user = await fetchUserById(post.author_id ?? 0);
         return {      
             id: post.id ?? 0,
             author: user?.name ?? "",
+            author_id: post.author_id,
             authorAvatar: "",
             community: post.group_id ?? 0,
-            time: post.timestamp ?? "",
-            content: post.body,
-            link: post.external_content_url,
+            timestamp: post.timestamp ?? "",
+            body: post.body,
+            external_content_url: post.external_content_url,
             likes: 0,
             comments: []
         };
     }));
   
       return groupPosts;
+    } catch (error) {
+      console.error('Fetch group by ID error:', error);
+    }
+  }
+
+  export async function fetchUserPosts(user_id: number) {
+    try {
+      const userPostsResponse = await getPostsByUserIdUserUserIdPostsGet({
+        path: {
+          user_id: user_id,
+        },
+      });
+      
+      const userPostsData = userPostsResponse.data as Post[];
+  
+      
+      const userPosts: PostProps[] = await Promise.all(userPostsData.map(async post => {        
+        const user = await fetchUserById(post.author_id ?? 0);
+
+        return {      
+            id: post.id ?? 0,
+            author: user?.name ?? "",
+            authorAvatar: "",
+            community: post.group_id ?? 0,
+            timestamp: post.timestamp ?? "",
+            body: post.body,
+            external_content_url: post.external_content_url,
+            likes: 0,
+            comments: []
+        };
+    }));
+  
+      return userPosts;
     } catch (error) {
       console.error('Fetch group by ID error:', error);
     }

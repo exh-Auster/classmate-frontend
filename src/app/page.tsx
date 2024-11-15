@@ -6,7 +6,7 @@ import MainContent from '@/components/mainContent'
 // import { /*users,*/ currentUser/*, communities*/ } from '../lib/mock-data';
 import { healthcheckGet } from '../client/services.gen'
 // import { add_groups, add_users } from '../lib/data'
-import { Group, User } from '../client/types.gen'
+import { Group, Post, User } from '../client/types.gen'
 import { fetchCurrentUser } from '../lib/fetchData'
 
 // add_users()
@@ -40,14 +40,9 @@ async function checkHealth() {
 checkHealth()
 // sendNewUser()
 
-export interface PostProps{
-  id: number,
+export interface PostProps extends Post {
   author: string,
   authorAvatar:string,
-  community:number,
-  time:string,
-  content:string,
-  link:string | null,
   likes:number,
   comments:{
     author:string,
@@ -69,7 +64,7 @@ export type ViewType = 'feed' | 'community' | 'profile'
 export default function Classmate() {
   const [view, setView] = useState<ViewType>('feed')
   const [selectedCommunity, setSelectedCommunity] = useState<Group | null>(null)
-  const [selectedProfile, setSelectedProfile] = useState('')
+  const [selectedProfile, setSelectedProfile] = useState<number | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [currentUser, setCurrentUser] = useState<UserProps | null>(null);
 
@@ -86,7 +81,7 @@ export default function Classmate() {
     setSelectedCommunity(community)
   }
 
-  const handleProfileClick = (profile: string) => {
+  const handleProfileClick = (profile: number) => {
     setView('profile')
     setSelectedProfile(profile)
   }
@@ -94,7 +89,7 @@ export default function Classmate() {
   const handleHomeClick = () => {
     setView('feed')
     setSelectedCommunity(null)
-    setSelectedProfile('')
+    setSelectedProfile(null)
   }
 
   const handleSearch = (query: string) => {

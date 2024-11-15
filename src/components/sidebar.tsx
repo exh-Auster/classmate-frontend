@@ -8,14 +8,14 @@ import { Group } from "@/client"
 interface SideBarProps {
     user: UserProps,
     onCommunityClick: (param: Group["id"]) => void,
-    onProfileClick: (param: string) => void,
+    onProfileClick: (param: number) => void,
     onHomeClick: () => void
 }
 
 function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick }: SideBarProps) {
     return (
         <div className="w-[30%] bg-white shadow-md p-4 flex flex-col">
-            <UserCard user={user} onClick={() => onProfileClick(user.name)} />
+            <UserCard user={user} onClick={() => onProfileClick(user.id ?? 0)} />
             <Button variant="ghost" className="mt-6 mb-4" onClick={onHomeClick}>
                 <Home className="mr-2 h-4 w-4" />
                 Timeline

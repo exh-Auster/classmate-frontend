@@ -16,7 +16,7 @@ import { currentUser } from '@/lib/fetchData';
 
 interface IPostProps {
     post: PostProps,
-    onProfileClick: (param: string) => void,
+    onProfileClick: (param: number) => void,
 }
 
 function Post({ post, onProfileClick }: IPostProps) {
@@ -24,10 +24,10 @@ function Post({ post, onProfileClick }: IPostProps) {
     const [communityName, setCommunityName] = useState<string | undefined>('');
 
     useEffect(() => {
-        fetchGroup(post.community).then(group => {
+        fetchGroup(post.group_id ?? 0).then(group => {
             setCommunityName(group?.name);
         });
-    }, [post.community]);
+    }, [post.group_id]);
     
     return (
         <Card className="mb-4">
@@ -38,17 +38,17 @@ function Post({ post, onProfileClick }: IPostProps) {
                         <AvatarFallback>{post.author[0]}</AvatarFallback>
                     </Avatar>
                     <div>
-                        <Link href="#" onClick={() => onProfileClick(post.author)} className="font-semibold hover:underline">
+                        <Link href="#" onClick={() => onProfileClick(post.author_id ?? 0)} className="font-semibold hover:underline">
                             {post.author}
                         </Link>
-                        <p className="text-sm text-gray-500">{ communityName } • {formatDistanceToNow(new Date(post.time), { addSuffix: true })}</p>
+                        <p className="text-sm text-gray-500">{ communityName } • {formatDistanceToNow(new Date(post.timestamp ?? ""), { addSuffix: true })}</p>
                     </div>
                 </div>
             </CardHeader>
             <CardContent>
-                <p>{post.content}</p>
-                {post.link && (
-                    <a href={post.link} className="text-blue-500 flex items-center mt-2">
+                <p>{post.body}</p>
+                {post.external_content_url && (
+                    <a href={post.external_content_url} className="text-blue-500 flex items-center mt-2">
                         <ExternalLink className="h-4 w-4 mr-1" /> Link externo
                     </a>
                 )}
@@ -89,7 +89,7 @@ function Post({ post, onProfileClick }: IPostProps) {
                         try {
                         await createCommentPostPostIdCommentPost({
                             body: comment,
-                            path: { post_id: post.id },
+                            path: { post_id: post.id ?? 0 },
                         });
                         setNewComment('');
                         } catch (error) {

@@ -1,24 +1,58 @@
 'use client'
 import { Avatar, /* AvatarImage,*/ AvatarFallback } from "@/components/ui/avatar"
 import { Edit, UserMinus, UserPlus } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Post from "./post"
 import { Button } from "./ui/button"
 import { Card, CardHeader } from "./ui/card"
 import { PostProps, UserProps } from "@/app/page"
+import { fetchUserById, fetchUserPosts } from "@/lib/fetchData"
 // import { posts } from '../lib/mock-data';
 
 interface ProfileViewProps {
-    profile: string,
+    profile: number,
     currentUser: UserProps,
-    onProfileClick: (param: string) => void
+    onProfileClick: (param: number) => void
 }
 
 function ProfileView({ profile, currentUser, onProfileClick }: ProfileViewProps) {
-    const isCurrentUser = profile === currentUser.name
+    const isCurrentUser = profile === currentUser.id
     const [isFollowing, setIsFollowing] = useState(false)
     const profilePosts = currentUser.posts ?? [] // .filter(post => post.author === profile)
-    const sortedPosts = profilePosts.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
+
+    const [userPosts, setUserPosts] = useState<PostProps[]>([])
+    const [user, setUserInfo] = useState<UserProps | null>(null)
+
+
+    console.log(profile)
+    useEffect(() => {
+        const getUserPosts = async () => {
+            try {
+                const response = await fetchUserPosts(profile ?? 0)
+                if (response) {
+                    setUserPosts(response)
+                }
+            } catch (error) {
+                console.error('Error fetching user posts:', error)
+            }
+        }
+
+        const getUserInfo = async () => {
+            try {
+                const response = await fetchUserById(profile ?? 0)
+                if (response) {
+                    setUserInfo(response)
+                }
+            } catch (error) {
+                console.error('Error fetching user info:', error)
+            }
+        }
+
+        getUserPosts()
+        getUserInfo()
+    }, [profile])
+
+    const sortedPosts = userPosts.sort((a, b) => new Date(b.timestamp ?? "").getTime() - new Date(a.timestamp ?? "").getTime())
 
     return (
         <div>
@@ -26,11 +60,11 @@ function ProfileView({ profile, currentUser, onProfileClick }: ProfileViewProps)
                 <CardHeader className="flex flex-row items-center gap-4">
                     <Avatar className="w-20 h-20">
                         {/* <AvatarImage src={currentUser.avatar} alt={profile} /> */}
-                        <AvatarFallback>{profile[0]}</AvatarFallback>
+                        <AvatarFallback>{user?.name[0]}</AvatarFallback>
                     </Avatar>
                     <div>
-                        <h2 className="text-2xl font-semibold">{profile}</h2>
-                        <p className="text-gray-500">{currentUser.bio}</p>
+                        <h2 className="text-2xl font-semibold">{user?.name}</h2>
+                        <p className="text-gray-500">{user?.bio}</p>
                         <div className="flex gap-4 mt-2">
                             <span><strong>{currentUser.following}</strong> Seguindo</span>
                             <span><strong>{currentUser.followers}</strong> Seguidores</span>
