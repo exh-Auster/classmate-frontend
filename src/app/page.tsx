@@ -80,7 +80,7 @@ export interface GroupProps {
 
 export type ViewType = 'feed' | 'community' | 'profile'
 
-export default function EduSocial() {
+export default function Classmate() {
   const [view, setView] = useState<ViewType>('feed')
   const [selectedCommunity, setSelectedCommunity] = useState('')
   const [selectedProfile, setSelectedProfile] = useState('')
