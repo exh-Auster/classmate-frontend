@@ -1,5 +1,5 @@
 'use client'
-import { Home/*, Settings*/ } from "lucide-react"
+import { Home, Settings } from "lucide-react"
 import { Button } from "./ui/button"
 import UserCard from "./userCard"
 import { UserProps } from "@/app/page"
@@ -35,6 +35,10 @@ function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick }: SideBa
                     ))}
                 </ul>
             </nav>
+            <Button variant="ghost" className="mb-4" /*onClick={onSettingsClick}*/ disabled>
+                <Settings className="mr-2 h-4 w-4" />
+                Configurações
+            </Button>
         </div>
     )
 }
