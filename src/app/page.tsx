@@ -70,14 +70,6 @@ export interface UserProps {
   posts?: PostProps[]; // TODO
 }
 
-export interface GroupProps {
-  id: number
-  name: string
-  description?: string
-  creation_date?: string
-  creator_id?: number
-}
-
 export type ViewType = 'feed' | 'community' | 'profile'
 
 export default function Classmate() {

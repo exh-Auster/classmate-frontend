@@ -1,4 +1,4 @@
-import { GroupProps, PostProps, UserProps } from "@/app/page";
+import { PostProps, UserProps } from "@/app/page";
 import { Group, Post, User } from "@/client";
 import { getGroupByIdGroupGroupIdGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet } from "@/client/services.gen";
 
@@ -82,7 +82,7 @@ export async function fetchGroup(group_id: number) {
   
       const groupData = groupResponse.data as Group;
   
-      const group: GroupProps = {
+      const group: Group = {
         id: groupData.id ?? 0,
         name: groupData.name,
         description: groupData.description ?? "",
