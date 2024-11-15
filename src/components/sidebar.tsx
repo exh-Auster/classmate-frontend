@@ -3,10 +3,11 @@ import { Home, Settings } from "lucide-react"
 import { Button } from "./ui/button"
 import UserCard from "./userCard"
 import { UserProps } from "@/app/page"
+import { Group } from "@/client"
 
 interface SideBarProps {
     user: UserProps,
-    onCommunityClick: (param: string) => void,
+    onCommunityClick: (param: Group["id"]) => void,
     onProfileClick: (param: string) => void,
     onHomeClick: () => void
 }
@@ -27,7 +28,7 @@ function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick }: SideBa
                             <Button
                                 variant="ghost"
                                 className="w-full justify-start"
-                                onClick={() => onCommunityClick(String(group.id))}
+                                onClick={() => onCommunityClick(group.id) }
                             >
                                 {group.name}
                             </Button>

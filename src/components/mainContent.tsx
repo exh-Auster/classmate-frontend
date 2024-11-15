@@ -5,10 +5,11 @@ import CommunityView from "./comunityView"
 import Feed from "./feed"
 import ProfileView from "./profileView"
 import { UserProps, ViewType } from "@/app/page"
+import { Group } from "@/client"
 
 interface MainContentProps {
     view: ViewType,
-    community: string,
+    community: Group | null,
     profile: string,
     currentUser: UserProps,
     onProfileClick: (param: string) => void,
@@ -32,7 +33,7 @@ function MainContent({ view, community, profile, currentUser, onProfileClick, se
                 </div>
             </div>
             {view === 'feed' && <Feed communities={currentUser.groups} onProfileClick={onProfileClick} />}
-            {view === 'community' && <CommunityView community={community} onProfileClick={onProfileClick} />}
+            {view === 'community' && community && <CommunityView community={community} onProfileClick={onProfileClick} />}
             {view === 'profile' && <ProfileView profile={profile} currentUser={currentUser} onProfileClick={onProfileClick} />}
         </div>
     )

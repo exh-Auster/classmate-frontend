@@ -13,7 +13,7 @@ import { currentUser } from "@/lib/fetchData"
 
 interface NewPostFormProps {
     communities: Group[],
-    fixedCommunity?: string | null
+    fixedCommunity?: Group | null
 }
 
 function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {

@@ -68,7 +68,7 @@ export type ViewType = 'feed' | 'community' | 'profile'
 
 export default function Classmate() {
   const [view, setView] = useState<ViewType>('feed')
-  const [selectedCommunity, setSelectedCommunity] = useState('')
+  const [selectedCommunity, setSelectedCommunity] = useState<Group | null>(null)
   const [selectedProfile, setSelectedProfile] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [currentUser, setCurrentUser] = useState<UserProps | null>(null);
@@ -81,7 +81,7 @@ export default function Classmate() {
     fetchData();
   }, []);
 
-  const handleCommunityClick = (community: string) => {
+  const handleCommunityClick = (community: Group) => {
     setView('community')
     setSelectedCommunity(community)
   }
@@ -93,7 +93,7 @@ export default function Classmate() {
 
   const handleHomeClick = () => {
     setView('feed')
-    setSelectedCommunity('')
+    setSelectedCommunity(null)
     setSelectedProfile('')
   }
 
