@@ -11,14 +11,13 @@ import { PostProps, UserProps } from "@/app/page"
 interface ProfileViewProps {
     profile: string,
     currentUser: UserProps,
-    posts: PostProps[],
     onProfileClick: (param: string) => void
 }
 
-function ProfileView({ profile, currentUser, onProfileClick, posts }: ProfileViewProps) {
+function ProfileView({ profile, currentUser, onProfileClick }: ProfileViewProps) {
     const isCurrentUser = profile === currentUser.name
     const [isFollowing, setIsFollowing] = useState(false)
-    const profilePosts = posts // .filter(post => post.author === profile)
+    const profilePosts = currentUser.posts ?? [] // .filter(post => post.author === profile)
     const sortedPosts = profilePosts.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
 
     return (
