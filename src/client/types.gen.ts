@@ -119,6 +119,10 @@ export type GetPostsByGroupIdGroupGroupIdPostsGetResponse = (unknown);
 
 export type GetPostsByGroupIdGroupGroupIdPostsGetError = (HTTPValidationError);
 
+export type GetAllPostsPostGetResponse = (unknown);
+
+export type GetAllPostsPostGetError = unknown;
+
 export type CreatePostPostPostData = {
     body: Post;
 };

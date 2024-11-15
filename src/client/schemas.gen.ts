@@ -21,7 +21,7 @@ export const CommentSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Timestamp',
-            default: '2024-11-15T14:03:37.132195'
+            default: '2024-11-15T16:19:09.998712'
         },
         author_id: {
             type: 'integer',
