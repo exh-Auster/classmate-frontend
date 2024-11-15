@@ -60,10 +60,10 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
                 />
                 <div className="flex justify-between items-center">
                     <div className="flex space-x-2">
-                        <Button variant="outline" size="icon">
+                        <Button variant="outline" size="icon" disabled>
                             <Paperclip className="h-4 w-4" />
                         </Button>
-                        <Button variant="outline" size="icon">
+                        <Button variant="outline" size="icon" disabled>
                             <Image className="h-4 w-4" />
                         </Button>
                     </div>
