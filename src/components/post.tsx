@@ -81,7 +81,7 @@ function Post({ post, onProfileClick }: IPostProps) {
 
                         const comment: Comment = {
                         body: newComment,
-                        author_id: currentUser.id,
+                        author_id: currentUser.id ?? 0,
                         post_id: post.id,
                         timestamp: new Date().toISOString(),
                         };

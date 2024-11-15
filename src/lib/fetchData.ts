@@ -57,7 +57,8 @@ export async function fetchCurrentUser() {
         following: 0, // TODO
         followers: 0, // TODO
         groups: userGroupsData,
-        posts: userPosts
+        posts: userPosts,
+        password_hash: "" // TODO
       };
   
       currentUser = user;

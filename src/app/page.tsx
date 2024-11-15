@@ -6,7 +6,7 @@ import MainContent from '@/components/mainContent'
 // import { /*users,*/ currentUser/*, communities*/ } from '../lib/mock-data';
 import { healthcheckGet } from '../client/services.gen'
 // import { add_groups, add_users } from '../lib/data'
-import { Group } from '../client/types.gen'
+import { Group, User } from '../client/types.gen'
 import { fetchCurrentUser } from '../lib/fetchData'
 
 // add_users()
@@ -56,17 +56,11 @@ export interface PostProps{
   }[]
 }
 
-export interface UserProps {
-  id: number,
-  name: string,
-  email: string,
-  // password_hash: string
-  avatar:string,
-  bio:string,
-  following:number,
-  followers:number,
-  // registered_at:string //?
-  groups:Group[]
+export interface UserProps extends User {
+  avatar: string,
+  following: number,
+  followers: number,
+  groups: Group[]
   posts?: PostProps[]; // TODO
 }
 

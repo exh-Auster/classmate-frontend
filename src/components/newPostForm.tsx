@@ -27,7 +27,7 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
         const newPost = {
             body: postContent,
             external_content_url: postLink || null,
-            author_id: currentUser.id,
+            author_id: currentUser.id ?? undefined,
             group_id: selectedCommunity ? communities.find(c => c.name === selectedCommunity)?.id ?? undefined : undefined,
             timestamp: new Date().toISOString(),
         }
