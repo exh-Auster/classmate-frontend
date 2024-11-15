@@ -55,6 +55,10 @@ export type HealthcheckGetResponse = (unknown);
 
 export type HealthcheckGetError = unknown;
 
+export type InitDbInitGetResponse = (unknown);
+
+export type InitDbInitGetError = unknown;
+
 export type GetAllUsersUserGetResponse = (unknown);
 
 export type GetAllUsersUserGetError = unknown;
@@ -104,6 +108,16 @@ export type GetGroupByIdGroupGroupIdGetData = {
 export type GetGroupByIdGroupGroupIdGetResponse = (unknown);
 
 export type GetGroupByIdGroupGroupIdGetError = (HTTPValidationError);
+
+export type GetPostsByGroupIdGroupGroupIdPostsGetData = {
+    path: {
+        group_id: number;
+    };
+};
+
+export type GetPostsByGroupIdGroupGroupIdPostsGetResponse = (unknown);
+
+export type GetPostsByGroupIdGroupGroupIdPostsGetError = (HTTPValidationError);
 
 export type CreatePostPostPostData = {
     body: Post;
