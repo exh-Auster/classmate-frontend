@@ -182,6 +182,7 @@ export async function fetchGroup(group_id: number) {
         const user = await fetchUserById(post.author_id ?? 0);
         return {      
             id: post.id ?? 0,
+            group_id: post.group_id,
             author: user?.name ?? "",
             author_id: post.author_id,
             authorAvatar: "",
@@ -216,6 +217,7 @@ export async function fetchGroup(group_id: number) {
 
         return {      
             id: post.id ?? 0,
+            group_id: post.group_id,
             author: user?.name ?? "",
             authorAvatar: "",
             community: post.group_id ?? 0,
