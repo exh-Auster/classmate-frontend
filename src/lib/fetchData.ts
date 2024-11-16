@@ -1,6 +1,6 @@
 import { PostProps, UserProps } from "@/app/page";
-import { Group, Post, User } from "@/client";
-import { getGroupByIdGroupGroupIdGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostsByGroupIdGroupGroupIdPostsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet } from "@/client/services.gen";
+import { Group, Like, Post, User } from "@/client";
+import { getGroupByIdGroupGroupIdGet, getLikesByPostIdPostPostIdLikeGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostsByGroupIdGroupGroupIdPostsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet } from "@/client/services.gen";
 
 export let currentUser: UserProps
 
@@ -209,7 +209,6 @@ export async function fetchGroup(group_id: number) {
       });
       
       const userPostsData = userPostsResponse.data as Post[];
-  
       
       const userPosts: PostProps[] = await Promise.all(userPostsData.map(async post => {        
         const user = await fetchUserById(post.author_id ?? 0);
@@ -233,3 +232,26 @@ export async function fetchGroup(group_id: number) {
       console.error('Fetch group by ID error:', error);
     }
   }
+
+  export async function fetchPostLikes(post_id: number) {
+  try {
+    const likesResponse = await getLikesByPostIdPostPostIdLikeGet({
+      path: {
+        post_id: post_id,
+      },
+    });
+
+    const likesData = likesResponse.data as Like[];
+
+    const likes = likesData.map(like => ({
+      id: like.id ?? 0,
+      author_id: like.author_id ?? 0,
+      post_id: like.post_id ?? 0,
+      timestamp: like.timestamp ?? "",
+    }));
+
+    return likes;
+  } catch (error) {
+    console.error('Fetch likes by post ID error:', error);
+  }
+}

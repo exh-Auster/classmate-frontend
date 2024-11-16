@@ -11,7 +11,7 @@ import { PostProps } from "@/app/page"
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from 'date-fns/locale'
 
-import { fetchGroup } from "../lib/fetchData"
+import { fetchGroup, fetchPostLikes } from "@/lib/fetchData";
 
 import { createCommentPostPostIdCommentPost } from '@/client/services.gen';
 import { Comment } from '@/client/types.gen';
@@ -24,14 +24,23 @@ interface IPostProps {
 
 function Post({ post, onProfileClick }: IPostProps) {
     const [newComment, setNewComment] = useState('')
-    const [communityName, setCommunityName] = useState<string | undefined>('');
+    const [communityName, setCommunityName] = useState<string | undefined>('')
+    const [likesCount, setLikesCount] = useState<number>(post.likes)
 
     useEffect(() => {
         fetchGroup(post.group_id ?? 0).then(group => {
             setCommunityName(group?.name);
         });
     }, [post.group_id]);
-    
+
+    useEffect(() => {
+        async function getLikes() {
+            const likes = await fetchPostLikes(post.id ?? 0);
+            setLikesCount(likes?.length ?? 0);
+        }
+        getLikes();
+    }, [post.id]);
+
     return (
         <Card className="mb-4">
             <CardHeader>
@@ -44,7 +53,8 @@ function Post({ post, onProfileClick }: IPostProps) {
                         <Link href="#" onClick={() => onProfileClick(post.author_id ?? 0)} className="font-semibold hover:underline">
                             {post.author}
                         </Link>
-                        <p className="text-sm text-gray-500">{ communityName } • {formatDistanceToNow(new Date(post.timestamp ?? ""), { locale: ptBR, addSuffix: true })}</p>
+                        <p className="text-sm text-gray-500">{communityName} • {formatDistanceToNow(new Date(post.timestamp ?? ""), { locale: ptBR, addSuffix: true })}
+                        </p>
                     </div>
                 </div>
             </CardHeader>
@@ -59,7 +69,7 @@ function Post({ post, onProfileClick }: IPostProps) {
             <CardFooter className="flex flex-col">
                 <div className="flex justify-between w-full mb-4">
                     <Button variant="ghost" size="sm">
-                        <ThumbsUp className="h-4 w-4 mr-1" /> {post.likes}
+                        <ThumbsUp className="h-4 w-4 mr-1" /> {likesCount}
                     </Button>
                     <Button variant="ghost" size="sm">
                         <MessageSquare className="h-4 w-4 mr-1" /> {post.comments.length}
@@ -77,30 +87,30 @@ function Post({ post, onProfileClick }: IPostProps) {
                         className="flex-grow"
                     />
                     <Button
-                    size="sm"
-                    disabled={!newComment.trim()}
-                    onClick={async () => {
-                        if (!newComment.trim()) return;
+                        size="sm"
+                        disabled={!newComment.trim()}
+                        onClick={async () => {
+                            if (!newComment.trim()) return;
 
-                        const comment: Comment = {
-                        body: newComment,
-                        author_id: currentUser.id ?? 0,
-                        post_id: post.id,
-                        timestamp: new Date().toISOString(),
-                        };
+                            const comment: Comment = {
+                                body: newComment,
+                                author_id: currentUser.id ?? 0,
+                                post_id: post.id,
+                                timestamp: new Date().toISOString(),
+                            };
 
-                        try {
-                        await createCommentPostPostIdCommentPost({
-                            body: comment,
-                            path: { post_id: post.id ?? 0 },
-                        });
-                        setNewComment('');
-                        } catch (error) {
-                        console.error('Error creating comment:', error);
-                        }
-                    }}
+                            try {
+                                await createCommentPostPostIdCommentPost({
+                                    body: comment,
+                                    path: { post_id: post.id ?? 0 },
+                                });
+                                setNewComment('');
+                            } catch (error) {
+                                console.error('Error creating comment:', error);
+                            }
+                        }}
                     >
-                    Enviar
+                        Enviar
                     </Button>
                 </div>
                 {post.comments.length > 0 && (
@@ -124,7 +134,7 @@ function Post({ post, onProfileClick }: IPostProps) {
                 )}
             </CardFooter>
         </Card>
-    )
+    );
 }
 
-export default Post
+export default Post;
