@@ -21,10 +21,9 @@ export type HTTPValidationError = {
 };
 
 export type Like = {
-    id?: (number | null);
-    timestamp?: string;
     author_id?: number;
     post_id?: number;
+    timestamp?: string;
 };
 
 export type Post = {
@@ -205,6 +204,7 @@ export type GetLikesByPostIdPostPostIdLikeGetResponse = (unknown);
 export type GetLikesByPostIdPostPostIdLikeGetError = (HTTPValidationError);
 
 export type RemoveLikesPostsPostIdLikeDeleteData = {
+    body: Like;
     path: {
         post_id: number;
     };

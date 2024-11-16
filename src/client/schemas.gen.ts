@@ -21,7 +21,7 @@ export const CommentSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Timestamp',
-            default: '2024-11-15T16:19:09.998712'
+            default: '2024-11-16T19:08:04.070507'
         },
         author_id: {
             type: 'integer',
@@ -76,7 +76,7 @@ export const GroupSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Creation Date',
-            default: '2024-11-15T16:19:09.981952'
+            default: '2024-11-16T19:08:04.054244'
         },
         creator_id: {
             type: 'integer',
@@ -104,23 +104,6 @@ export const HTTPValidationErrorSchema = {
 
 export const LikeSchema = {
     properties: {
-        id: {
-            anyOf: [
-                {
-                    type: 'integer'
-                },
-                {
-                    type: 'null'
-                }
-            ],
-            title: 'Id'
-        },
-        timestamp: {
-            type: 'string',
-            format: 'date-time',
-            title: 'Timestamp',
-            default: '2024-11-15T16:19:10.000290'
-        },
         author_id: {
             type: 'integer',
             title: 'Author Id'
@@ -128,6 +111,12 @@ export const LikeSchema = {
         post_id: {
             type: 'integer',
             title: 'Post Id'
+        },
+        timestamp: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Timestamp',
+            default: '2024-11-16T19:08:04.072108'
         }
     },
     type: 'object',
@@ -166,7 +155,7 @@ export const PostSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Timestamp',
-            default: '2024-11-15T16:19:09.983598'
+            default: '2024-11-16T19:08:04.055768'
         },
         author_id: {
             type: 'integer',
@@ -209,7 +198,7 @@ export const UserSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Registered At',
-            default: '2024-11-15T16:19:09.978281'
+            default: '2024-11-16T19:08:04.051080'
         },
         name: {
             type: 'string',
