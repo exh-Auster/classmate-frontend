@@ -1,29 +1,46 @@
 'use client'
-import { Group } from '@/client';
-// import { posts } from '../lib/mock-data';
+import { useState, useEffect } from "react";
+import { Group, Post as PostType } from '@/client';
+import { fetchGroupPosts } from "@/lib/fetchData";
 import NewPostForm from "./newPostForm";
 import Post from "./post";
-// import { MouseEventHandler } from "react";
 
 interface FeedProps {
     communities: Group[],
-    onProfileClick: (param:string)=>void
+    onProfileClick: (param: string) => void
 }
 
-function Feed({ communities, onProfileClick }:FeedProps) {
-    // const feedPosts = posts.filter(post => communities.some(community => community.id === post.community)) // TODO
-    // const sortedPosts = feedPosts.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
-  
+function Feed({ communities, onProfileClick }: FeedProps) {
+    const [posts, setPosts] = useState<PostType[]>([]);
+
+    useEffect(() => {
+        const fetchAllPosts = async () => {
+            try {
+                const allPosts: PostType[] = [];
+                for (const community of communities) {
+                    const groupPosts = await fetchGroupPosts(community.id ?? 0);
+                    allPosts.push(...groupPosts);
+                }
+                const sortedPosts = allPosts.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+                setPosts(sortedPosts);
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            }
+        };
+
+        fetchAllPosts();
+    }, [communities]);
+
     return (
-      <div>
-        <NewPostForm communities={communities} />
-        {/* <div className="mt-6">
-          {sortedPosts.map((post) => (
-            <Post key={post.id} post={post} onProfileClick={onProfileClick} />
-          ))}
-        </div> */}
-      </div>
+        <div>
+            <NewPostForm communities={communities} />
+            <div className="mt-6">
+                {posts.map((post) => (
+                    <Post key={post.id} post={post} onProfileClick={onProfileClick} />
+                ))}
+            </div>
+        </div>
     )
-  }
+}
 
 export default Feed;
