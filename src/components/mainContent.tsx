@@ -5,7 +5,6 @@ import CommunityView from "./comunityView"
 import Feed from "./feed"
 import ProfileView from "./profileView"
 import { UserProps, ViewType } from "@/app/page"
-import { Group } from "@/client"
 
 interface MainContentProps {
     view: ViewType,

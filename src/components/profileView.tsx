@@ -18,11 +18,10 @@ interface ProfileViewProps {
 function ProfileView({ profile, currentUser, onProfileClick }: ProfileViewProps) {
     const isCurrentUser = profile === currentUser.id
     const [isFollowing, setIsFollowing] = useState(false)
-    const profilePosts = currentUser.posts ?? [] // .filter(post => post.author === profile)
+    // const profilePosts = currentUser.posts ?? [] // .filter(post => post.author === profile)
 
     const [userPosts, setUserPosts] = useState<PostProps[]>([])
     const [user, setUserInfo] = useState<UserProps | null>(null)
-
 
     console.log(profile)
     useEffect(() => {
