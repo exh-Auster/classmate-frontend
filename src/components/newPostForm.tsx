@@ -13,28 +13,27 @@ import { currentUser } from "@/lib/fetchData"
 
 interface NewPostFormProps {
     communities: Group[],
-    fixedCommunity?: Group | null
+    fixedCommunity?: number | null
 }
 
 function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
     const [postContent, setPostContent] = useState('')
     const [postLink, setPostLink] = useState('')
-    const [selectedCommunity, setSelectedCommunity] = useState<string | null>(fixedCommunity)
+    const [selectedCommunity, setSelectedCommunity] = useState<number | null>(fixedCommunity)
 
     const handleSubmit = async () => {
         if (!postContent.trim()) return
-
+    
         const newPost = {
             body: postContent,
             external_content_url: postLink || null,
             author_id: currentUser.id ?? undefined,
-            group_id: selectedCommunity ? communities.find(c => c.name === selectedCommunity)?.id ?? undefined : undefined,
+            group_id: fixedCommunity ?? selectedCommunity ?? undefined,
             timestamp: new Date().toISOString(),
         }
-
+    
         try {
             await createPostPostPost({ body: newPost })
-            // Optionally reset form or handle success
             setPostContent('')
             setPostLink('')
         } catch (error) {
@@ -77,7 +76,7 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
                                 </SelectTrigger>
                                 <SelectContent>
                                     {communities.map((community) => (
-                                        <SelectItem key={community.id} value={community.name}>
+                                        <SelectItem key={community.id} value={community.id}>
                                             {community.name}
                                         </SelectItem>
                                     ))}
