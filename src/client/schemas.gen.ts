@@ -76,7 +76,7 @@ export const GroupSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Creation Date',
-            default: '2024-11-15T14:03:37.114830'
+            default: '2024-11-15T16:19:09.981952'
         },
         creator_id: {
             type: 'integer',
@@ -119,7 +119,7 @@ export const LikeSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Timestamp',
-            default: '2024-11-15T14:03:37.133786'
+            default: '2024-11-15T16:19:10.000290'
         },
         author_id: {
             type: 'integer',
@@ -166,7 +166,7 @@ export const PostSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Timestamp',
-            default: '2024-11-15T14:03:37.116359'
+            default: '2024-11-15T16:19:09.983598'
         },
         author_id: {
             type: 'integer',
@@ -209,7 +209,7 @@ export const UserSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Registered At',
-            default: '2024-11-15T14:03:37.111762'
+            default: '2024-11-15T16:19:09.978281'
         },
         name: {
             type: 'string',
