@@ -87,7 +87,7 @@ export async function fetchCurrentUser() {
   
       const userPostsResponse = await getPostsByUserIdUserUserIdPostsGet({
         path: {
-          user_id: 1,
+          user_id: user_id,
         },
       });
   
@@ -97,7 +97,7 @@ export async function fetchCurrentUser() {
   
       const userGroupsResponse = await getMemberGroupsByUserIdUserUserIdGroupsGet({
         path: {
-          user_id: 1,
+          user_id: user_id,
         },
       });
   
@@ -130,7 +130,6 @@ export async function fetchCurrentUser() {
         password_hash: "" // TODO
       };
   
-      currentUser = user;
       return user;
   
       console.log("User groups:", user.groups)
