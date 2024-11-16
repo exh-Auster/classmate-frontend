@@ -11,7 +11,7 @@ import { PostProps } from "@/app/page"
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from 'date-fns/locale'
 
-import { fetchGroup, fetchPostLikes } from "@/lib/data";
+import { dislikePost, fetchGroup, fetchPostLikes, likePost } from "@/lib/data";
 
 import { createCommentPostPostIdCommentPost } from '@/client/services.gen';
 import { Comment } from '@/client/types.gen';
@@ -26,6 +26,18 @@ function Post({ post, onProfileClick }: IPostProps) {
     const [newComment, setNewComment] = useState('')
     const [communityName, setCommunityName] = useState<string | undefined>('')
     const [likesCount, setLikesCount] = useState<number>(post.likes)
+    const [hasLiked, setHasLiked] = useState(false);
+
+    const handleLike = async () => {
+        if (hasLiked) {
+            await dislikePost(post.id ?? 0);
+            setLikesCount(likesCount - 1);
+        } else {
+            await likePost(post.id ?? 0);
+            setLikesCount(likesCount + 1);
+        }
+        setHasLiked(!hasLiked);
+    };
 
     useEffect(() => {
         fetchGroup(post.group_id ?? 0).then(group => {
@@ -37,6 +49,8 @@ function Post({ post, onProfileClick }: IPostProps) {
         async function getLikes() {
             const likes = await fetchPostLikes(post.id ?? 0);
             setLikesCount(likes?.length ?? 0);
+            const userLiked = likes?.some((like) => like.author_id === currentUser.id);
+            setHasLiked(userLiked ?? false);
         }
         getLikes();
     }, [post.id]);
@@ -68,8 +82,14 @@ function Post({ post, onProfileClick }: IPostProps) {
             </CardContent>
             <CardFooter className="flex flex-col">
                 <div className="flex justify-between w-full mb-4">
-                    <Button variant="ghost" size="sm">
-                        <ThumbsUp className="h-4 w-4 mr-1" /> {likesCount}
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleLike}
+                        className={hasLiked ? 'bg-blue-100' : ''}
+                    >
+                        <ThumbsUp className="h-4 w-4 mr-1" />
+                        {likesCount}
                     </Button>
                     <Button variant="ghost" size="sm">
                         <MessageSquare className="h-4 w-4 mr-1" /> {post.comments.length}
