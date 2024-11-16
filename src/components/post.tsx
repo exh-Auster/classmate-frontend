@@ -7,7 +7,10 @@ import { Button } from "./ui/button"
 import { Card, CardHeader, CardContent, CardFooter } from "./ui/card"
 import Link from "next/link"
 import { PostProps } from "@/app/page"
+
 import { formatDistanceToNow } from "date-fns";
+import { ptBR } from 'date-fns/locale'
+
 import { fetchGroup } from "../lib/fetchData"
 
 import { createCommentPostPostIdCommentPost } from '@/client/services.gen';
@@ -41,7 +44,7 @@ function Post({ post, onProfileClick }: IPostProps) {
                         <Link href="#" onClick={() => onProfileClick(post.author_id ?? 0)} className="font-semibold hover:underline">
                             {post.author}
                         </Link>
-                        <p className="text-sm text-gray-500">{ communityName } • {formatDistanceToNow(new Date(post.timestamp ?? ""), { addSuffix: true })}</p>
+                        <p className="text-sm text-gray-500">{ communityName } • {formatDistanceToNow(new Date(post.timestamp ?? ""), { locale: ptBR, addSuffix: true })}</p>
                     </div>
                 </div>
             </CardHeader>
