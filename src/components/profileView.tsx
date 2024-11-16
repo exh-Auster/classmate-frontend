@@ -10,7 +10,7 @@ import { fetchUserById, fetchUserPosts } from "@/lib/fetchData"
 // import { posts } from '../lib/mock-data';
 
 interface ProfileViewProps {
-    profile: number,
+    profile: number | null,
     currentUser: UserProps,
     onProfileClick: (param: number) => void
 }

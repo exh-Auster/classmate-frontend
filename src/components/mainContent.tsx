@@ -9,8 +9,8 @@ import { Group } from "@/client"
 
 interface MainContentProps {
     view: ViewType,
-    community: Group | null,
-    profile: number,
+    community: number | null,
+    profile: number | null,
     currentUser: UserProps,
     onProfileClick: (param: number) => void,
     searchQuery: string,

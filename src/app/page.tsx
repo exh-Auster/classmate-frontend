@@ -63,7 +63,7 @@ export type ViewType = 'feed' | 'community' | 'profile'
 
 export default function Classmate() {
   const [view, setView] = useState<ViewType>('feed')
-  const [selectedCommunity, setSelectedCommunity] = useState<Group | null>(null)
+  const [selectedCommunity, setSelectedCommunity] = useState<number | null>(null)
   const [selectedProfile, setSelectedProfile] = useState<number | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [currentUser, setCurrentUser] = useState<UserProps | null>(null);
@@ -76,9 +76,9 @@ export default function Classmate() {
     fetchData();
   }, []);
 
-  const handleCommunityClick = (community: Group) => {
+  const handleCommunityClick = (community: number | null | undefined) => {
     setView('community')
-    setSelectedCommunity(community)
+    setSelectedCommunity(community ?? null)
   }
 
   const handleProfileClick = (profile: number) => {
@@ -102,7 +102,7 @@ export default function Classmate() {
   }
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100 px-[0%]">
       <Sidebar
         user={currentUser}
         onCommunityClick={handleCommunityClick}
@@ -111,7 +111,7 @@ export default function Classmate() {
       />
       <MainContent
         view={view}
-        community={selectedCommunity}
+        community={selectedCommunity ?? null}
         profile={selectedProfile}
         currentUser={currentUser}
         onProfileClick={handleProfileClick}

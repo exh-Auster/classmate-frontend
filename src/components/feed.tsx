@@ -7,7 +7,7 @@ import Post from "./post";
 
 interface FeedProps {
     communities: Group[],
-    onProfileClick: (param: string) => void
+    onProfileClick: (param: number) => void
 }
 
 function Feed({ communities, onProfileClick }: FeedProps) {
@@ -19,9 +19,9 @@ function Feed({ communities, onProfileClick }: FeedProps) {
                 const allPosts: PostType[] = [];
                 for (const community of communities) {
                     const groupPosts = await fetchGroupPosts(community.id ?? 0);
-                    allPosts.push(...groupPosts);
+                    allPosts.push(...groupPosts ?? []);
                 }
-                const sortedPosts = allPosts.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+                const sortedPosts = allPosts.sort((a, b) => new Date(b.timestamp!).getTime() - new Date(a.timestamp!).getTime());
                 setPosts(sortedPosts);
             } catch (error) {
                 console.error('Error fetching posts:', error);
