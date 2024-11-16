@@ -1,6 +1,6 @@
 import { PostProps, UserProps } from "@/app/page";
 import { Group, Like, Post, User } from "@/client";
-import { getGroupByIdGroupGroupIdGet, getLikesByPostIdPostPostIdLikeGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostsByGroupIdGroupGroupIdPostsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet } from "@/client/services.gen";
+import { getGroupByIdGroupGroupIdGet, getLikesByPostIdPostPostIdLikeGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostsByGroupIdGroupGroupIdPostsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet, likePostPostPostIdLikePost, removeLikesPostsPostIdLikeDelete } from "@/client/services.gen";
 
 export let currentUser: UserProps
 
@@ -253,5 +253,49 @@ export async function fetchGroup(group_id: number) {
     return likes;
   } catch (error) {
     console.error('Fetch likes by post ID error:', error);
+  }
+}
+
+export async function likePost(post_id: number) {
+  try {
+    const likeData: Like = {
+      author_id: currentUser.id ?? 0,
+      post_id: post_id,
+      timestamp: new Date().toISOString(),
+    };
+
+    const response = await likePostPostPostIdLikePost({
+      path: {
+        post_id: post_id,
+      },
+      body: likeData,
+    });
+
+    console.log('Post liked:', response);
+    return response;
+  } catch (error) {
+    console.error('Error liking post:', error);
+  }
+}
+
+export async function dislikePost(post_id: number) {
+  try {
+    const likeData: Like = {
+      author_id: currentUser.id ?? 0,
+      post_id: post_id,
+      timestamp: new Date().toISOString(),
+    };
+
+    const response = await removeLikesPostsPostIdLikeDelete({
+      path: {
+        post_id: post_id,
+      },
+      body: likeData
+    });
+
+    console.log('Like removed:', response);
+    return response;
+  } catch (error) {
+    console.error('Error disliking post:', error);
   }
 }
