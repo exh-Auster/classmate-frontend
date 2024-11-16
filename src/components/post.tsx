@@ -11,11 +11,11 @@ import { PostProps } from "@/app/page"
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from 'date-fns/locale'
 
-import { fetchGroup, fetchPostLikes } from "@/lib/fetchData";
+import { fetchGroup, fetchPostLikes } from "@/lib/data";
 
 import { createCommentPostPostIdCommentPost } from '@/client/services.gen';
 import { Comment } from '@/client/types.gen';
-import { currentUser } from '@/lib/fetchData';
+import { currentUser } from '@/lib/data';
 
 interface IPostProps {
     post: PostProps,

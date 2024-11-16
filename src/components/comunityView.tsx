@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { currentUser, fetchGroup, fetchGroupPosts } from '@/lib/fetchData'
+import { currentUser, fetchGroup, fetchGroupPosts } from '@/lib/data'
 import { Group } from "@/client"
 import NewPostForm from "./newPostForm"
 import Post from "./post"

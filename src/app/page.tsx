@@ -7,7 +7,7 @@ import MainContent from '@/components/mainContent'
 import { healthcheckGet } from '../client/services.gen'
 // import { add_groups, add_users } from '../lib/data'
 import { Group, Post, User } from '../client/types.gen'
-import { fetchCurrentUser } from '../lib/fetchData'
+import { fetchCurrentUser } from '../lib/data'
 
 // add_users()
 // add_groups()

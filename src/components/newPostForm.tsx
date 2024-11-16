@@ -9,7 +9,7 @@ import { Textarea } from "./ui/textarea"
 import { Image } from "lucide-react"
 import { Group } from "@/client"
 import { createPostPostPost } from "@/client/services.gen"
-import { currentUser } from "@/lib/fetchData"
+import { currentUser } from "@/lib/data"
 
 interface NewPostFormProps {
     communities: Group[],

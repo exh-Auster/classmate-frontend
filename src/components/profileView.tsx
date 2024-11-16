@@ -6,7 +6,7 @@ import Post from "./post"
 import { Button } from "./ui/button"
 import { Card, CardHeader } from "./ui/card"
 import { PostProps, UserProps } from "@/app/page"
-import { fetchUserById, fetchUserPosts } from "@/lib/fetchData"
+import { fetchUserById, fetchUserPosts } from "@/lib/data"
 // import { posts } from '../lib/mock-data';
 
 interface ProfileViewProps {
