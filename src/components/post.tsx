@@ -1,6 +1,6 @@
 'use client'
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { ExternalLink, ThumbsUp, MessageSquare, Share2 } from "lucide-react"
+import { ExternalLink, ThumbsUp, MessageSquare, Share2, MoreHorizontal } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { useState, useEffect } from "react"
 import { Button } from "./ui/button"
@@ -16,6 +16,7 @@ import { dislikePost, fetchGroup, fetchPostLikes, likePost } from "@/lib/data";
 import { createCommentPostPostIdCommentPost } from '@/client/services.gen';
 import { Comment } from '@/client/types.gen';
 import { currentUser } from '@/lib/data';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 interface IPostProps {
     post: PostProps,
@@ -39,6 +40,10 @@ function Post({ post, onProfileClick }: IPostProps) {
         setHasLiked(!hasLiked);
     };
 
+    const handleDelete = () => {
+        // TODO
+    };
+
     useEffect(() => {
         fetchGroup(post.group_id ?? 0).then(group => {
             setCommunityName(group?.name);
@@ -58,18 +63,40 @@ function Post({ post, onProfileClick }: IPostProps) {
     return (
         <Card className="mb-4">
             <CardHeader>
-                <div className="flex items-center">
-                    <Avatar className="mr-2">
-                        <AvatarImage src={post.authorAvatar} alt={post.author} />
-                        <AvatarFallback>{post.author[0]}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                        <Link href="#" onClick={() => onProfileClick(post.author_id ?? 0)} className="font-semibold hover:underline">
-                            {post.author}
-                        </Link>
-                        <p className="text-sm text-gray-500">{communityName} • {formatDistanceToNow(new Date(post.timestamp ?? ""), { locale: ptBR, addSuffix: true })}
-                        </p>
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                        <Avatar className="mr-2">
+                            <AvatarImage src={post.authorAvatar} alt={post.author} />
+                            <AvatarFallback>{post.author[0]}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                            <Link
+                                href="#"
+                                onClick={() => onProfileClick(post.author_id ?? 0)}
+                                className="font-semibold hover:underline"
+                            >
+                                {post.author}
+                            </Link>
+                            <p className="text-sm text-gray-500">
+                                {communityName} •{" "}
+                                {formatDistanceToNow(new Date(post.timestamp ?? ""), {
+                                    locale: ptBR,
+                                    addSuffix: true,
+                                })}
+                            </p>
+                        </div>
                     </div>
+                    {post.author_id === currentUser.id && (<DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm" disabled={post.author_id !== currentUser.id}>
+                                <MoreHorizontal className="h-5 w-5" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={handleDelete}>Excluir publicação</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    )}
                 </div>
             </CardHeader>
             <CardContent>
