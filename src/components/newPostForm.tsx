@@ -21,6 +21,10 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
     const [postLink, setPostLink] = useState('')
     const [selectedCommunity, setSelectedCommunity] = useState<number | null>(fixedCommunity)
 
+    const fixedCommunityName = fixedCommunity
+        ? communities.find((community) => community.id === fixedCommunity)?.name
+        : null
+
     const handleSubmit = async () => {
         if (!postContent.trim()) return
     
@@ -68,15 +72,15 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
                     </div>
                     <div className="flex items-center space-x-2">
                         {fixedCommunity ? (
-                            <div className="text-sm text-gray-500">Publicando em: {fixedCommunity}</div>
+                            <div className="text-sm text-gray-500">Publicando em: {fixedCommunityName}</div>
                         ) : (
-                            <Select onValueChange={(value) => setSelectedCommunity(value)}>
+                            <Select onValueChange={(value) => setSelectedCommunity(Number(value))}>
                                 <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="Selecionar disciplina" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {communities.map((community) => (
-                                        <SelectItem key={community.id} value={community.id}>
+                                        <SelectItem key={community.id} value={String(community.id)}>
                                             {community.name}
                                         </SelectItem>
                                     ))}
