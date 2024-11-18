@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from "react";
-import { Group, Post as PostType } from '@/client';
+import { Group } from '@/client';
 import { fetchGroupPosts } from "@/lib/data";
 import NewPostForm from "./newPostForm";
 import Post from "./post";
