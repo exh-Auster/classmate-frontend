@@ -1,5 +1,5 @@
 'use client'
-import { Home, Settings } from "lucide-react"
+import { Home, LogOut, Settings } from "lucide-react"
 import { Button } from "./ui/button"
 import UserCard from "./userCard"
 import { UserProps } from "@/app/page"
@@ -28,7 +28,7 @@ function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick }: SideBa
                             <Button
                                 variant="ghost"
                                 className="w-full justify-start"
-                                onClick={() => onCommunityClick(group.id) }
+                                onClick={() => onCommunityClick(group.id)}
                             >
                                 {group.name}
                             </Button>
@@ -36,10 +36,16 @@ function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick }: SideBa
                     ))}
                 </ul>
             </nav>
-            <Button variant="ghost" className="mb-4" /*onClick={onSettingsClick}*/ disabled>
-                <Settings className="mr-2 h-4 w-4" />
-                Configurações
-            </Button>
+            <div className="flex justify-center space-x-2 mb-4">
+                <Button variant="ghost" /*onClick={onSettingsClick}*/ disabled>
+                    <Settings className="mr-2 h-4 w-4" />
+                    Configurações
+                </Button>
+                <Button variant="ghost" /*onClick={}*/ disabled>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Desconectar
+                </Button>
+            </div>
         </div>
     )
 }
