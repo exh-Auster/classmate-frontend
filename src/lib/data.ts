@@ -217,6 +217,7 @@ export async function fetchGroup(group_id: number) {
             id: post.id ?? 0,
             group_id: post.group_id,
             author: user?.name ?? "",
+            author_id: post.author_id,
             authorAvatar: "",
             community: post.group_id ?? 0,
             timestamp: post.timestamp ?? "",
@@ -244,7 +245,6 @@ export async function fetchGroup(group_id: number) {
     const likesData = likesResponse.data as Like[];
 
     const likes = likesData.map(like => ({
-      id: like.id ?? 0,
       author_id: like.author_id ?? 0,
       post_id: like.post_id ?? 0,
       timestamp: like.timestamp ?? "",
