@@ -169,8 +169,8 @@ function Post({ post, onProfileClick }: IPostProps) {
                                     <AvatarImage src={comment.authorAvatar} alt={comment.author} />
                                     <AvatarFallback>{comment.author[0]}</AvatarFallback>
                                 </Avatar>
-                                <div>
-                                    <Link href="#" onClick={() => onProfileClick(comment.author)} className="font-semibold hover:underline">
+                                <div> 
+                                    <Link href="#" onClick={() => onProfileClick(0)} className="font-semibold hover:underline">
                                         {comment.author}
                                     </Link>
                                     <p>{comment.content}</p>
