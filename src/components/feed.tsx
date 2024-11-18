@@ -4,6 +4,7 @@ import { Group, Post as PostType } from '@/client';
 import { fetchGroupPosts } from "@/lib/data";
 import NewPostForm from "./newPostForm";
 import Post from "./post";
+import { PostProps } from "@/app/page";
 
 interface FeedProps {
     communities: Group[],
@@ -11,12 +12,12 @@ interface FeedProps {
 }
 
 function Feed({ communities, onProfileClick }: FeedProps) {
-    const [posts, setPosts] = useState<PostType[]>([]);
+    const [posts, setPosts] = useState<PostProps[]>([]);
 
     useEffect(() => {
         const fetchAllPosts = async () => {
             try {
-                const allPosts: PostType[] = [];
+                const allPosts: PostProps[] = [];
                 for (const community of communities) {
                     const groupPosts = await fetchGroupPosts(community.id ?? 0);
                     allPosts.push(...groupPosts ?? []);
