@@ -8,6 +8,7 @@ import { healthcheckGet } from '../client/services.gen'
 // import { add_groups, add_users } from '../lib/data'
 import { Group, Post, User } from '../client/types.gen'
 import { fetchCurrentUser } from '../lib/data'
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 // add_users()
 // add_groups()
@@ -118,6 +119,7 @@ export default function Classmate() {
         searchQuery={searchQuery}
         onSearch={handleSearch}
       />
+      <SpeedInsights />
     </div>
   )
 }
