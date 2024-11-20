@@ -8,10 +8,11 @@ interface SideBarProps {
     user: UserProps,
     onCommunityClick: (param: Group["id"]) => void,
     onProfileClick: (param: number) => void,
-    onHomeClick: () => void
+    onHomeClick: () => void,
+    onBookmarksClick: () => void
 }
 
-function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick }: SideBarProps) {
+function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick, onBookmarksClick }: SideBarProps) {
     return (
         <div className="w-[30%] bg-white shadow-md p-4 flex flex-col">
             <UserCard user={user} onClick={() => onProfileClick(user.id ?? 0)} />
@@ -19,7 +20,7 @@ function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick }: SideBa
                 <Home className="mr-2 h-4 w-4" />
                 Timeline
             </Button>
-            <Button variant="ghost" className="mt-0 mb-4" /*onClick={}*/ disabled>
+            <Button variant="ghost" className="mt-0 mb-4" onClick={onBookmarksClick}>
                 <BookMarkedIcon className="mr-2 h-4 w-4" />
                 Lista de Leitura
             </Button>

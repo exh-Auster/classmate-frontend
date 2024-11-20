@@ -60,7 +60,7 @@ export interface UserProps extends User {
   posts?: PostProps[]; // TODO
 }
 
-export type ViewType = 'feed' | 'community' | 'profile'
+export type ViewType = 'feed' | 'community' | 'profile' | 'bookmarks'
 
 export default function Classmate() {
   const [view, setView] = useState<ViewType>('feed')
@@ -93,6 +93,12 @@ export default function Classmate() {
     setSelectedProfile(null)
   }
 
+  const handleBookmarksClick = () => {
+    setView('bookmarks');
+    setSelectedCommunity(null);
+    setSelectedProfile(null);
+  };
+
   const handleSearch = (query: string) => {
     setSearchQuery(query)
     // TODO
@@ -109,6 +115,7 @@ export default function Classmate() {
         onCommunityClick={handleCommunityClick}
         onProfileClick={handleProfileClick}
         onHomeClick={handleHomeClick}
+        onBookmarksClick={handleBookmarksClick}
       />
       <MainContent
         view={view}

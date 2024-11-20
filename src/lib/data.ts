@@ -1,6 +1,6 @@
 import { PostProps, UserProps } from "@/app/page";
 import { Bookmark, Group, Like, Post, User } from "@/client";
-import { bookmarkPostPostPostIdBookmarkPost, getBookmarksByUserIdUserUserIdBookmarksGet, getGroupByIdGroupGroupIdGet, getLikesByPostIdPostPostIdLikeGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostsByGroupIdGroupGroupIdPostsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet, likePostPostPostIdLikePost, removeBookmarksPostsPostIdBookmarkDelete, removeLikesPostsPostIdLikeDelete } from "@/client/services.gen";
+import { bookmarkPostPostPostIdBookmarkPost, getBookmarksByUserIdUserUserIdBookmarksGet, getGroupByIdGroupGroupIdGet, getLikesByPostIdPostPostIdLikeGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostByIdPostPostIdGet, getPostsByGroupIdGroupGroupIdPostsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet, likePostPostPostIdLikePost, removeBookmarksPostsPostIdBookmarkDelete, removeLikesPostsPostIdLikeDelete } from "@/client/services.gen";
 
 export let currentUser: UserProps
 
@@ -366,5 +366,48 @@ export async function removeBookmark(post_id: number) {
     return response;
   } catch (error) {
     console.error('Error removing bookmark:', error);
+  }
+}
+
+export async function fetchPostById(post_id: number) {
+  try {
+      const response = await getPostByIdPostPostIdGet({
+          path: {
+              post_id: post_id,
+          },
+      })
+
+      const postData = response.data as Post
+      const user = await fetchUserById(postData.author_id ?? 0)
+      
+      const postProps: PostProps = {
+          id: postData.id ?? 0,
+          group_id: postData.group_id,
+          author: user?.name ?? "",
+          author_id: postData.author_id,
+          authorAvatar: "",
+          timestamp: postData.timestamp ?? "",
+          body: postData.body,
+          external_content_url: postData.external_content_url,
+          likes: 0,
+          comments: []
+      }
+      return postProps
+  } catch (error) {
+      console.error('Error fetching post:', error)
+  }
+}
+
+export async function fetchGroupById(group_id: number) {
+  try {
+      const response = await getGroupByIdGroupGroupIdGet({
+          path: {
+              group_id: group_id,
+          },
+      })
+      const groupData = response.data as Group
+      return groupData
+  } catch (error) {
+      console.error('Error fetching group:', error)
   }
 }

@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input"
 import CommunityView from "./comunityView"
 import Feed from "./feed"
 import ProfileView from "./profileView"
+import BookmarksView from './bookmarksView';
 import { UserProps, ViewType } from "@/app/page"
 
 interface MainContentProps {
@@ -33,6 +34,7 @@ function MainContent({ view, community, profile, currentUser, onProfileClick, se
             {view === 'feed' && <Feed communities={currentUser.groups} onProfileClick={onProfileClick} />}
             {view === 'community' && community && <CommunityView community={community} onProfileClick={onProfileClick} />}
             {view === 'profile' && <ProfileView profile={profile} currentUser={currentUser} onProfileClick={onProfileClick} />}
+            {view === 'bookmarks' && <BookmarksView currentUser={currentUser} onProfileClick={onProfileClick} />}
         </div>
     )
 }
