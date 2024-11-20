@@ -5,6 +5,7 @@ import { fetchGroupPosts } from "@/lib/data";
 import NewPostForm from "./newPostForm";
 import Post from "./post";
 import { PostProps } from "@/app/page";
+import SkeletonPost from "./SkeletonPost";
 
 interface FeedProps {
     communities: Group[],
@@ -13,6 +14,7 @@ interface FeedProps {
 
 function Feed({ communities, onProfileClick }: FeedProps) {
     const [posts, setPosts] = useState<PostProps[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchAllPosts = async () => {
@@ -26,6 +28,8 @@ function Feed({ communities, onProfileClick }: FeedProps) {
                 setPosts(sortedPosts);
             } catch (error) {
                 console.error('Error fetching posts:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -36,9 +40,19 @@ function Feed({ communities, onProfileClick }: FeedProps) {
         <div>
             <NewPostForm communities={communities} />
             <div className="mt-6">
-                {posts.map((post) => (
-                    <Post key={post.id} post={post} onProfileClick={onProfileClick} />
-                ))}
+                {loading ? (
+                    <div className="space-y-4">
+                        <SkeletonPost />
+                        <SkeletonPost />
+                        <SkeletonPost />
+                        <SkeletonPost />
+                        <SkeletonPost />
+                    </div>
+                ) : (
+                    posts.map((post) => (
+                        <Post key={post.id} post={post} onProfileClick={onProfileClick} />
+                    ))
+                )}
             </div>
         </div>
     )
