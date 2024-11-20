@@ -1,6 +1,6 @@
 'use client'
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { ExternalLink, ThumbsUp, MessageSquare, Share2, MoreHorizontal } from "lucide-react"
+import { ExternalLink, ThumbsUp, MessageSquare, Share2, MoreHorizontal, Bookmark } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { useState, useEffect } from "react"
 import { Button } from "./ui/button"
@@ -11,12 +11,13 @@ import { PostProps } from "@/app/page"
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from 'date-fns/locale'
 
-import { dislikePost, fetchGroup, fetchPostLikes, likePost } from "@/lib/data";
+import { bookmarkPost, dislikePost, fetchGroup, fetchPostLikes, fetchUserBookmarks, likePost, removeBookmark } from "@/lib/data";
 
 import { createCommentPostPostIdCommentPost } from '@/client/services.gen';
 import { Comment } from '@/client/types.gen';
 import { currentUser } from '@/lib/data';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { BookmarkFilledIcon } from "@radix-ui/react-icons"
 
 interface IPostProps {
     post: PostProps,
@@ -28,6 +29,7 @@ function Post({ post, onProfileClick }: IPostProps) {
     const [communityName, setCommunityName] = useState<string | undefined>('')
     const [likesCount, setLikesCount] = useState<number>(post.likes)
     const [hasLiked, setHasLiked] = useState(false);
+    const [hasBookmarked, setHasBookmarked] = useState(false);
 
     const handleLike = async () => {
         if (hasLiked) {
@@ -38,6 +40,15 @@ function Post({ post, onProfileClick }: IPostProps) {
             setLikesCount(likesCount + 1);
         }
         setHasLiked(!hasLiked);
+    };
+
+    const handleBookmark = async () => {
+        if (hasBookmarked) {
+            await removeBookmark(post.id ?? 0);
+        } else {
+            await bookmarkPost(post.id ?? 0);
+        }
+        setHasBookmarked(!hasBookmarked);
     };
 
     const handleDelete = () => {
@@ -58,6 +69,15 @@ function Post({ post, onProfileClick }: IPostProps) {
             setHasLiked(userLiked ?? false);
         }
         getLikes();
+    }, [post.id]);
+
+    useEffect(() => {
+        async function getBookmarks() {
+            const bookmarks = await fetchUserBookmarks(currentUser.id ?? 0);
+            const userBookmarked = bookmarks?.some((bookmark) => bookmark.post_id === post.id);
+            setHasBookmarked(userBookmarked ?? false);
+        }
+        getBookmarks();
     }, [post.id]);
 
     return (
@@ -124,6 +144,17 @@ function Post({ post, onProfileClick }: IPostProps) {
                     <Button variant="ghost" size="sm">
                         <Share2 className="h-4 w-4 mr-1" /> Compartilhar
                     </Button>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleBookmark}
+                    >
+                        {hasBookmarked ? (
+                            <BookmarkFilledIcon className="h-4 w-4 mr-1" />
+                        ) : (
+                            <Bookmark className="h-4 w-4 mr-1" />
+                        )}
+                    </Button>
                 </div>
                 <div className="w-full flex items-center space-x-2">
                     <Input
@@ -169,7 +200,7 @@ function Post({ post, onProfileClick }: IPostProps) {
                                     <AvatarImage src={comment.authorAvatar} alt={comment.author} />
                                     <AvatarFallback>{comment.author[0]}</AvatarFallback>
                                 </Avatar>
-                                <div> 
+                                <div>
                                     <Link href="#" onClick={() => onProfileClick(0)} className="font-semibold hover:underline">
                                         {comment.author}
                                     </Link>

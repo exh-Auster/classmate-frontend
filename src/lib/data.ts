@@ -1,6 +1,6 @@
 import { PostProps, UserProps } from "@/app/page";
-import { Group, Like, Post, User } from "@/client";
-import { getGroupByIdGroupGroupIdGet, getLikesByPostIdPostPostIdLikeGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostsByGroupIdGroupGroupIdPostsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet, likePostPostPostIdLikePost, removeLikesPostsPostIdLikeDelete } from "@/client/services.gen";
+import { Bookmark, Group, Like, Post, User } from "@/client";
+import { bookmarkPostPostPostIdBookmarkPost, getBookmarksByUserIdUserUserIdBookmarksGet, getGroupByIdGroupGroupIdGet, getLikesByPostIdPostPostIdLikeGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostsByGroupIdGroupGroupIdPostsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet, likePostPostPostIdLikePost, removeBookmarksPostsPostIdBookmarkDelete, removeLikesPostsPostIdLikeDelete } from "@/client/services.gen";
 
 export let currentUser: UserProps
 
@@ -297,5 +297,74 @@ export async function dislikePost(post_id: number) {
     return response;
   } catch (error) {
     console.error('Error disliking post:', error);
+  }
+}
+
+export async function fetchUserBookmarks(user_id: number) {
+  try {
+    const userBookmarksResponse = await getBookmarksByUserIdUserUserIdBookmarksGet({
+      path: {
+        user_id: user_id,
+      },
+    });
+    
+    const userBookmarksData = userBookmarksResponse.data as Bookmark[];
+    
+    const userBookmarks = await Promise.all(userBookmarksData.map(async bookmark => {        
+
+      return {      
+          author_id: bookmark.author_id,
+          post_id: bookmark.post_id,
+          timestamp: bookmark.timestamp ?? "",
+      };
+  }));
+
+    return userBookmarks;
+  } catch (error) {
+    console.error('Fetch bookmarks error:', error);
+  }
+}
+
+export async function bookmarkPost(post_id: number) {
+  try {
+    const bookmarkData: Bookmark = {
+      author_id: currentUser.id ?? 0,
+      post_id: post_id,
+      timestamp: new Date().toISOString(),
+    };
+
+    const response = await bookmarkPostPostPostIdBookmarkPost({
+      path: {
+        post_id: post_id,
+      },
+      body: bookmarkData,
+    });
+
+    console.log('Post bookmarked:', response);
+    return response;
+  } catch (error) {
+    console.error('Error bookmarking post:', error);
+  }
+}
+
+export async function removeBookmark(post_id: number) {
+  try {
+    const bookmarkData: Bookmark = {
+      author_id: currentUser.id ?? 0,
+      post_id: post_id,
+      timestamp: new Date().toISOString(),
+    };
+
+    const response = await removeBookmarksPostsPostIdBookmarkDelete({
+      path: {
+        post_id: post_id,
+      },
+      body: bookmarkData
+    });
+
+    console.log('Bookmark removed:', response);
+    return response;
+  } catch (error) {
+    console.error('Error removing bookmark:', error);
   }
 }
