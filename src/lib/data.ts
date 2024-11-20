@@ -12,7 +12,7 @@ export async function fetchCurrentUser() {
         },
       });
   
-      console.log('User response:', userResponse);
+      // console.log('User response:', userResponse);
   
       const userData = userResponse.data as User;
   
@@ -22,7 +22,7 @@ export async function fetchCurrentUser() {
         },
       });
   
-      console.log('User posts response:', userPostsResponse);
+      // console.log('User posts response:', userPostsResponse);
   
       const userPostsData = userPostsResponse.data as Post[];
   
@@ -32,7 +32,7 @@ export async function fetchCurrentUser() {
         },
       });
   
-      console.log('User groups response:', userGroupsResponse);
+      // console.log('User groups response:', userGroupsResponse);
   
       const userGroupsData = userGroupsResponse.data as Group[];
   
@@ -64,10 +64,10 @@ export async function fetchCurrentUser() {
       currentUser = user;
       return user;
   
-      console.log("User groups:", user.groups)
+      // console.log("User groups:", user.groups)
   
-      console.log('User by ID:', currentUser);
-      console.log('Posts by user:', userPostsData);
+      // console.log('User by ID:', currentUser);
+      // console.log('Posts by user:', userPostsData);
     } catch (error) {
       console.error('Fetch user by ID error:', error);
     }
@@ -81,7 +81,7 @@ export async function fetchCurrentUser() {
         },
       });
   
-      console.log('User response:', userResponse);
+      // console.log('User response:', userResponse);
   
       const userData = userResponse.data as User;
   
@@ -91,7 +91,7 @@ export async function fetchCurrentUser() {
         },
       });
   
-      console.log('User posts response:', userPostsResponse);
+      // console.log('User posts response:', userPostsResponse);
   
       const userPostsData = userPostsResponse.data as Post[];
   
@@ -101,7 +101,7 @@ export async function fetchCurrentUser() {
         },
       });
   
-      console.log('User groups response:', userGroupsResponse);
+      // console.log('User groups response:', userGroupsResponse);
   
       const userGroupsData = userGroupsResponse.data as Group[];
   
@@ -132,10 +132,10 @@ export async function fetchCurrentUser() {
   
       return user;
   
-      console.log("User groups:", user.groups)
+      // console.log("User groups:", user.groups)
   
-      console.log('User by ID:', currentUser);
-      console.log('Posts by user:', userPostsData);
+      // console.log('User by ID:', currentUser);
+      // console.log('Posts by user:', userPostsData);
     } catch (error) {
       console.error('Fetch user by ID error:', error);
     }
@@ -159,7 +159,7 @@ export async function fetchGroup(group_id: number) {
         creator_id: groupData.creator_id ?? 0
       }
   
-      console.log('Group by ID:', group);
+      // console.log('Group by ID:', group);
       return group;
     } catch (error) {
       console.error('Fetch group by ID error:', error);
