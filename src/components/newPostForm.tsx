@@ -87,7 +87,7 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
                                 </SelectContent>
                             </Select>
                         )}
-                        <Button disabled={!postContent.trim()} onClick={handleSubmit}>Publicar</Button>
+                        <Button disabled={!postContent.trim() || !selectedCommunity} onClick={handleSubmit}>Publicar</Button>
                     </div>
                 </div>
             </CardContent>
