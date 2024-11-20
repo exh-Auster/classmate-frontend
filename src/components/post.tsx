@@ -12,7 +12,7 @@ import { ptBR } from 'date-fns/locale'
 
 import { bookmarkPost, dislikePost, fetchGroup, fetchPostLikes, fetchUserBookmarks, likePost, removeBookmark } from "@/lib/data";
 
-import { createCommentPostPostIdCommentPost } from '@/client/services.gen';
+import { createCommentPostPostIdCommentPost, fetchTitleFetchTitleGet } from '@/client/services.gen';
 import { Comment } from '@/client/types.gen';
 import { currentUser } from '@/lib/data';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -29,6 +29,29 @@ function Post({ post, onProfileClick }: IPostProps) {
     const [likesCount, setLikesCount] = useState<number>(post.likes)
     const [hasLiked, setHasLiked] = useState(false);
     const [hasBookmarked, setHasBookmarked] = useState(false);
+    const [pageTitle, setPageTitle] = useState('');
+
+    useEffect(() => {
+        async function fetchPageTitle() {
+            try {
+                if (post.external_content_url) {
+                    const data = {
+                        query: { url: post.external_content_url },
+                    };
+                    const response = await fetchTitleFetchTitleGet(data);
+                    if (response && 'data' in response) {
+                        if (typeof response.data === 'object' && response.data !== null && 'title' in response.data) {
+                            setPageTitle((response.data as { title: string }).title);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching title:', error);
+            }
+        }
+
+        fetchPageTitle();
+    }, [post.external_content_url]);
 
     const handleLike = async () => {
         if (hasLiked) {
@@ -120,10 +143,18 @@ function Post({ post, onProfileClick }: IPostProps) {
             </CardHeader>
             <CardContent>
                 <p>{post.body}</p>
+                <br />
                 {post.external_content_url && (
-                    <a href={post.external_content_url} className="text-blue-500 flex items-center mt-2">
-                        <ExternalLink className="h-4 w-4 mr-1" /> Link externo
-                    </a>
+                    <div className="inline-block p-2 bg-gray-100 rounded-md">
+                        <a
+                            href={post.external_content_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center text-blue-500 hover:underline"
+                        >
+                            <ExternalLink className="h-4 w-4 mr-1" /> {pageTitle}
+                        </a>
+                    </div>
                 )}
             </CardContent>
             <CardFooter className="flex flex-col">
