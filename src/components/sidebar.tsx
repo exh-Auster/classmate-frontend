@@ -1,5 +1,5 @@
 'use client'
-import { Home, LogOut, Settings } from "lucide-react"
+import { BookMarkedIcon, Home, LogOut, Settings } from "lucide-react"
 import { Button } from "./ui/button"
 import UserCard from "./userCard"
 import { UserProps } from "@/app/page"
@@ -16,9 +16,13 @@ function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick }: SideBa
     return (
         <div className="w-[30%] bg-white shadow-md p-4 flex flex-col">
             <UserCard user={user} onClick={() => onProfileClick(user.id ?? 0)} />
-            <Button variant="ghost" className="mt-6 mb-4" onClick={onHomeClick}>
+            <Button variant="ghost" className="mt-6 mb-0" onClick={onHomeClick}>
                 <Home className="mr-2 h-4 w-4" />
                 Timeline
+            </Button>
+            <Button variant="ghost" className="mt-0 mb-4" /*onClick={}*/ disabled>
+                <BookMarkedIcon className="mr-2 h-4 w-4" />
+                Lista de Leitura
             </Button>
             <nav className="flex-grow">
                 <h2 className="text-lg font-semibold mb-2">Suas Disciplinas</h2>
