@@ -241,16 +241,16 @@ export type GetBookmarksByUserIdUserUserIdBookmarksGetResponse = (unknown);
 
 export type GetBookmarksByUserIdUserUserIdBookmarksGetError = (HTTPValidationError);
 
-export type RemoveBookmarksPostsPostIdBookmarkDeleteData = {
+export type RemoveBookmarkPostsPostIdBookmarkDeleteData = {
     body: Bookmark;
     path: {
         post_id: number;
     };
 };
 
-export type RemoveBookmarksPostsPostIdBookmarkDeleteResponse = (unknown);
+export type RemoveBookmarkPostsPostIdBookmarkDeleteResponse = (unknown);
 
-export type RemoveBookmarksPostsPostIdBookmarkDeleteError = (HTTPValidationError);
+export type RemoveBookmarkPostsPostIdBookmarkDeleteError = (HTTPValidationError);
 
 export type GetPostsByUserIdUserUserIdPostsGetData = {
     path: {
@@ -272,3 +272,13 @@ export type JoinGroupUserUserIdGroupsGroupIdJoinPostData = {
 export type JoinGroupUserUserIdGroupsGroupIdJoinPostResponse = (unknown);
 
 export type JoinGroupUserUserIdGroupsGroupIdJoinPostError = (HTTPValidationError);
+
+export type FetchTitleFetchTitleGetData = {
+    query: {
+        url: string;
+    };
+};
+
+export type FetchTitleFetchTitleGetResponse = (unknown);
+
+export type FetchTitleFetchTitleGetError = (HTTPValidationError);

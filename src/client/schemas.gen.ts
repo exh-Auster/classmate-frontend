@@ -14,7 +14,7 @@ export const BookmarkSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Timestamp',
-            default: '2024-11-20T17:05:35.512843'
+            default: '2024-11-20T19:59:04.154819'
         }
     },
     type: 'object',
@@ -42,7 +42,7 @@ export const CommentSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Timestamp',
-            default: '2024-11-20T17:05:35.510011'
+            default: '2024-11-20T19:59:04.152141'
         },
         author_id: {
             type: 'integer',
@@ -97,7 +97,7 @@ export const GroupSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Creation Date',
-            default: '2024-11-20T17:05:35.493343'
+            default: '2024-11-20T19:59:04.148951'
         },
         creator_id: {
             type: 'integer',
@@ -137,7 +137,7 @@ export const LikeSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Timestamp',
-            default: '2024-11-20T17:05:35.511557'
+            default: '2024-11-20T19:59:04.153625'
         }
     },
     type: 'object',
@@ -176,7 +176,7 @@ export const PostSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Timestamp',
-            default: '2024-11-20T17:05:35.494846'
+            default: '2024-11-20T19:59:04.150471'
         },
         author_id: {
             type: 'integer',
@@ -219,7 +219,7 @@ export const UserSchema = {
             type: 'string',
             format: 'date-time',
             title: 'Registered At',
-            default: '2024-11-20T17:05:35.490168'
+            default: '2024-11-20T19:59:04.146370'
         },
         name: {
             type: 'string',
