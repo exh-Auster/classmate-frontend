@@ -1,4 +1,3 @@
-'use client'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Paperclip } from "lucide-react"
 import { Input } from "@/components/ui/input"

@@ -1,4 +1,3 @@
-'use client'
 import { Avatar, /*AvatarImage,*/ AvatarFallback } from "@/components/ui/avatar"
 import { Card, CardHeader } from "./ui/card"
 import { UserProps } from "@/app/page"

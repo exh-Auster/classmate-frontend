@@ -1,4 +1,3 @@
-'use client'
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { ExternalLink, ThumbsUp, MessageSquare, Share2, MoreHorizontal, Bookmark } from "lucide-react"
 import { Input } from "@/components/ui/input"

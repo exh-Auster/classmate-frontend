@@ -1,4 +1,3 @@
-'use client'
 import { Avatar, /* AvatarImage,*/ AvatarFallback } from "@/components/ui/avatar"
 import { Edit, UserMinus, UserPlus } from "lucide-react"
 import { useEffect, useState } from "react"

@@ -1,4 +1,3 @@
-'use client'
 import { BookMarkedIcon, Home, LogOut, Settings } from "lucide-react"
 import { Button } from "./ui/button"
 import UserCard from "./userCard"

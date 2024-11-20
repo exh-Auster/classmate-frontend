@@ -1,4 +1,3 @@
-'use client'
 import { useState, useEffect } from "react";
 import { Group } from '@/client';
 import { fetchGroupPosts } from "@/lib/data";
