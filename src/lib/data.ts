@@ -1,6 +1,6 @@
 import { PostProps, UserProps } from "@/app/page";
 import { Bookmark, Group, Like, Post, User } from "@/client";
-import { bookmarkPostPostPostIdBookmarkPost, getBookmarksByUserIdUserUserIdBookmarksGet, getGroupByIdGroupGroupIdGet, getLikesByPostIdPostPostIdLikeGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostByIdPostPostIdGet, getPostsByGroupIdGroupGroupIdPostsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet, likePostPostPostIdLikePost, removeBookmarksPostsPostIdBookmarkDelete, removeLikesPostsPostIdLikeDelete } from "@/client/services.gen";
+import { bookmarkPostPostPostIdBookmarkPost, getBookmarksByUserIdUserUserIdBookmarksGet, getGroupByIdGroupGroupIdGet, getLikesByPostIdPostPostIdLikeGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostByIdPostPostIdGet, getPostsByGroupIdGroupGroupIdPostsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet, likePostPostPostIdLikePost, removeBookmarkPostsPostIdBookmarkDelete, removeLikesPostsPostIdLikeDelete } from "@/client/services.gen";
 
 export let currentUser: UserProps
 
@@ -355,7 +355,7 @@ export async function removeBookmark(post_id: number) {
       timestamp: new Date().toISOString(),
     };
 
-    const response = await removeBookmarksPostsPostIdBookmarkDelete({
+    const response = await removeBookmarkPostsPostIdBookmarkDelete({
       path: {
         post_id: post_id,
       },
@@ -379,7 +379,7 @@ export async function fetchPostById(post_id: number) {
 
       const postData = response.data as Post
       const user = await fetchUserById(postData.author_id ?? 0)
-      
+
       const postProps: PostProps = {
           id: postData.id ?? 0,
           group_id: postData.group_id,
