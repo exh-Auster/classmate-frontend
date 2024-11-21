@@ -91,7 +91,12 @@ function GroupSection({ groupId, posts, onProfileClick }: GroupSectionProps) {
                 onClick={() => setIsCollapsed(!isCollapsed)}
                 className="flex items-center justify-between w-full p-2 bg-gray-200 rounded-md"
             >
-                <h4 className="text-lg font-semibold">{groupName || 'Loading...'}</h4>
+                <div className="flex items-center">
+                    <h4 className="text-lg font-semibold mr-2">{groupName || ''}</h4>
+                    <span className="inline-flex items-center justify-center px-2 py-1 text-xs font-semibold text-white bg-blue-500 rounded-full">
+                        {posts.length}
+                    </span>
+                </div>
                 <span>{isCollapsed ? '▶' : '▼'}</span>
             </button>
             {!isCollapsed && (
