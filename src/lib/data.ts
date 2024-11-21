@@ -1,7 +1,6 @@
 import { PostProps, UserProps } from "@/app/page";
 import { Bookmark, Group, Like, Post, User, Comment } from "@/client";
 import { bookmarkPostPostPostIdBookmarkPost, getBookmarksByUserIdUserUserIdBookmarksGet, getCommentsByPostIdPostPostIdCommentGet, getGroupByIdGroupGroupIdGet, getLikesByPostIdPostPostIdLikeGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostByIdPostPostIdGet, getPostsByGroupIdGroupGroupIdPostsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet, likePostPostPostIdLikePost, removeBookmarkPostsPostIdBookmarkDelete, removeLikesPostsPostIdLikeDelete } from "@/client/services.gen";
-import { CommentProps } from "@/app/page";
 
 export let currentUser: UserProps
 
