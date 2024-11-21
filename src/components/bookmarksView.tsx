@@ -55,21 +55,21 @@ function BookmarksView({ currentUser, onProfileClick }: BookmarksViewProps) {
         <div>
             <h3 className="text-xl font-semibold mb-4">Lista de Leitura</h3>
             {Object.entries(groupedPosts).map(([groupId, posts]) => (
-                <div key={groupId}>
-                    <GroupHeader groupId={Number(groupId)} />
-                    <div>
-                        {posts.map((post) => (
-                            <Post key={post.id} post={post} onProfileClick={onProfileClick} />
-                        ))}
-                    </div>
-                </div>
+                <GroupSection key={groupId} groupId={Number(groupId)} posts={posts} onProfileClick={onProfileClick} />
             ))}
         </div>
     )
 }
 
-function GroupHeader({ groupId }: { groupId: number }) {
+interface GroupSectionProps {
+    groupId: number
+    posts: PostProps[]
+    onProfileClick: (param: number) => void
+}
+
+function GroupSection({ groupId, posts, onProfileClick }: GroupSectionProps) {
     const [groupName, setGroupName] = useState<string>('')
+    const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
 
     useEffect(() => {
         const getGroupName = async () => {
@@ -85,7 +85,24 @@ function GroupHeader({ groupId }: { groupId: number }) {
         getGroupName()
     }, [groupId])
 
-    return <h4 className="text-lg font-semibold mb-2">{groupName}</h4>
+    return (
+        <div className="mb-4">
+            <button
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                className="flex items-center justify-between w-full p-2 bg-gray-200 rounded-md"
+            >
+                <h4 className="text-lg font-semibold">{groupName || 'Loading...'}</h4>
+                <span>{isCollapsed ? '▶' : '▼'}</span>
+            </button>
+            {!isCollapsed && (
+                <div className="mt-2">
+                    {posts.map((post) => (
+                        <Post key={post.id} post={post} onProfileClick={onProfileClick} />
+                    ))}
+                </div>
+            )}
+        </div>
+    )
 }
 
 export default BookmarksView
