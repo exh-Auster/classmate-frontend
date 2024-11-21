@@ -1,44 +1,190 @@
 import { PostProps, UserProps } from "@/app/page";
-import { Bookmark, Group, Like, Post, User } from "@/client";
-import { bookmarkPostPostPostIdBookmarkPost, getBookmarksByUserIdUserUserIdBookmarksGet, getGroupByIdGroupGroupIdGet, getLikesByPostIdPostPostIdLikeGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostByIdPostPostIdGet, getPostsByGroupIdGroupGroupIdPostsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet, likePostPostPostIdLikePost, removeBookmarkPostsPostIdBookmarkDelete, removeLikesPostsPostIdLikeDelete } from "@/client/services.gen";
+import { Bookmark, Group, Like, Post, User, Comment } from "@/client";
+import { bookmarkPostPostPostIdBookmarkPost, getBookmarksByUserIdUserUserIdBookmarksGet, getCommentsByPostIdPostPostIdCommentGet, getGroupByIdGroupGroupIdGet, getLikesByPostIdPostPostIdLikeGet, getMemberGroupsByUserIdUserUserIdGroupsGet, getPostByIdPostPostIdGet, getPostsByGroupIdGroupGroupIdPostsGet, getPostsByUserIdUserUserIdPostsGet, getUserByIdUserUserIdGet, likePostPostPostIdLikePost, removeBookmarkPostsPostIdBookmarkDelete, removeLikesPostsPostIdLikeDelete } from "@/client/services.gen";
+import { CommentProps } from "@/app/page";
 
 export let currentUser: UserProps
 
 export async function fetchCurrentUser() {
-    try {
-      const userResponse = await getUserByIdUserUserIdGet({
-        path: {
-          user_id: 1,
-        },
-      });
-  
-      console.log('User response:', userResponse);
-  
-      const userData = userResponse.data as User;
-  
-      const userPostsResponse = await getPostsByUserIdUserUserIdPostsGet({
-        path: {
-          user_id: 1,
-        },
-      });
-  
-      console.log('User posts response:', userPostsResponse);
-  
-      const userPostsData = userPostsResponse.data as Post[];
-  
-      const userGroupsResponse = await getMemberGroupsByUserIdUserUserIdGroupsGet({
-        path: {
-          user_id: 1,
-        },
-      });
-  
-      console.log('User groups response:', userGroupsResponse);
-  
-      const userGroupsData = userGroupsResponse.data as Group[];
-  
-      const userPosts: PostProps[] = userPostsData.map(post => ({
-        id: post.author_id ?? 0,
-        author: userData.name,
+  try {
+    const userResponse = await getUserByIdUserUserIdGet({
+      path: {
+        user_id: 1,
+      },
+    });
+
+    console.log('User response:', userResponse);
+
+    const userData = userResponse.data as User;
+
+    const userPostsResponse = await getPostsByUserIdUserUserIdPostsGet({
+      path: {
+        user_id: 1,
+      },
+    });
+
+    console.log('User posts response:', userPostsResponse);
+
+    const userPostsData = userPostsResponse.data as Post[];
+
+    const userGroupsResponse = await getMemberGroupsByUserIdUserUserIdGroupsGet({
+      path: {
+        user_id: 1,
+      },
+    });
+
+    console.log('User groups response:', userGroupsResponse);
+
+    const userGroupsData = userGroupsResponse.data as Group[];
+
+    const userPosts: PostProps[] = userPostsData.map(post => ({
+      id: post.author_id ?? 0,
+      author: userData.name,
+      authorAvatar: "",
+      community: post.group_id ?? 0,
+      timestamp: post.timestamp ?? "",
+      body: post.body,
+      external_content_url: post.external_content_url,
+      likes: 0,
+      comments: []
+    }));
+
+    const user: UserProps = {
+      id: userData.id ?? 0,
+      name: userData.name,
+      email: userData.email,
+      bio: userData.bio,
+      avatar: '',
+      following: 0, // TODO
+      followers: 0, // TODO
+      groups: userGroupsData,
+      posts: userPosts,
+      password_hash: "" // TODO
+    };
+
+    currentUser = user;
+    return user;
+
+    console.log("User groups:", user.groups)
+
+    console.log('User by ID:', currentUser);
+    console.log('Posts by user:', userPostsData);
+  } catch (error) {
+    console.error('Fetch user by ID error:', error);
+  }
+}
+
+export async function fetchUserById(user_id: number) {
+  try {
+    const userResponse = await getUserByIdUserUserIdGet({
+      path: {
+        user_id: user_id,
+      },
+    });
+
+    console.log('User response:', userResponse);
+
+    const userData = userResponse.data as User;
+
+    const userPostsResponse = await getPostsByUserIdUserUserIdPostsGet({
+      path: {
+        user_id: user_id,
+      },
+    });
+
+    console.log('User posts response:', userPostsResponse);
+
+    const userPostsData = userPostsResponse.data as Post[];
+
+    const userGroupsResponse = await getMemberGroupsByUserIdUserUserIdGroupsGet({
+      path: {
+        user_id: user_id,
+      },
+    });
+
+    console.log('User groups response:', userGroupsResponse);
+
+    const userGroupsData = userGroupsResponse.data as Group[];
+
+    const userPosts: PostProps[] = userPostsData.map(post => ({
+      id: post.author_id ?? 0,
+      author: userData.name,
+      authorAvatar: "",
+      community: post.group_id ?? 0,
+      time: post.timestamp ?? "",
+      body: post.body,
+      external_content_url: post.external_content_url,
+      likes: 0,
+      comments: []
+    }));
+
+    const user: UserProps = {
+      id: userData.id ?? 0,
+      name: userData.name,
+      email: userData.email,
+      bio: userData.bio,
+      avatar: '',
+      following: 0, // TODO
+      followers: 0, // TODO
+      groups: userGroupsData,
+      posts: userPosts,
+      password_hash: "" // TODO
+    };
+
+    return user;
+
+    console.log("User groups:", user.groups)
+
+    console.log('User by ID:', currentUser);
+    console.log('Posts by user:', userPostsData);
+  } catch (error) {
+    console.error('Fetch user by ID error:', error);
+  }
+}
+
+export async function fetchGroup(group_id: number) {
+  try {
+    const groupResponse = await getGroupByIdGroupGroupIdGet({
+      path: {
+        group_id: group_id,
+      },
+    });
+
+    const groupData = groupResponse.data as Group;
+
+    const group: Group = {
+      id: groupData.id ?? 0,
+      name: groupData.name,
+      description: groupData.description ?? "",
+      creation_date: groupData.creation_date ?? "",
+      creator_id: groupData.creator_id ?? 0
+    }
+
+    console.log('Group by ID:', group);
+    return group;
+  } catch (error) {
+    console.error('Fetch group by ID error:', error);
+  }
+}
+
+export async function fetchGroupPosts(group_id: number) {
+  try {
+    const groupPostsResponse = await getPostsByGroupIdGroupGroupIdPostsGet({
+      path: {
+        group_id: group_id,
+      },
+    });
+
+
+    const groupPostsData = groupPostsResponse.data as Post[];
+
+    const groupPosts: PostProps[] = await Promise.all(groupPostsData.map(async post => {
+      const user = await fetchUserById(post.author_id ?? 0);
+      return {
+        id: post.id ?? 0,
+        group_id: post.group_id,
+        author: user?.name ?? "",
+        author_id: post.author_id,
         authorAvatar: "",
         community: post.group_id ?? 0,
         timestamp: post.timestamp ?? "",
@@ -46,195 +192,50 @@ export async function fetchCurrentUser() {
         external_content_url: post.external_content_url,
         likes: 0,
         comments: []
-      }));
-  
-      const user: UserProps = {
-        id: userData.id ?? 0,
-        name: userData.name,
-        email: userData.email,
-        bio: userData.bio,
-        avatar: '',
-        following: 0, // TODO
-        followers: 0, // TODO
-        groups: userGroupsData,
-        posts: userPosts,
-        password_hash: "" // TODO
       };
-  
-      currentUser = user;
-      return user;
-  
-      console.log("User groups:", user.groups)
-  
-      console.log('User by ID:', currentUser);
-      console.log('Posts by user:', userPostsData);
-    } catch (error) {
-      console.error('Fetch user by ID error:', error);
-    }
-  }
+    }));
 
-  export async function fetchUserById(user_id: number) {
-    try {
-      const userResponse = await getUserByIdUserUserIdGet({
-        path: {
-          user_id: user_id,
-        },
-      });
-  
-      console.log('User response:', userResponse);
-  
-      const userData = userResponse.data as User;
-  
-      const userPostsResponse = await getPostsByUserIdUserUserIdPostsGet({
-        path: {
-          user_id: user_id,
-        },
-      });
-  
-      console.log('User posts response:', userPostsResponse);
-  
-      const userPostsData = userPostsResponse.data as Post[];
-  
-      const userGroupsResponse = await getMemberGroupsByUserIdUserUserIdGroupsGet({
-        path: {
-          user_id: user_id,
-        },
-      });
-  
-      console.log('User groups response:', userGroupsResponse);
-  
-      const userGroupsData = userGroupsResponse.data as Group[];
-  
-      const userPosts: PostProps[] = userPostsData.map(post => ({
-        id: post.author_id ?? 0,
-        author: userData.name,
+    return groupPosts;
+  } catch (error) {
+    console.error('Fetch group by ID error:', error);
+  }
+}
+
+export async function fetchUserPosts(user_id: number) {
+  try {
+    const userPostsResponse = await getPostsByUserIdUserUserIdPostsGet({
+      path: {
+        user_id: user_id,
+      },
+    });
+
+    const userPostsData = userPostsResponse.data as Post[];
+
+    const userPosts: PostProps[] = await Promise.all(userPostsData.map(async post => {
+      const user = await fetchUserById(post.author_id ?? 0);
+
+      return {
+        id: post.id ?? 0,
+        group_id: post.group_id,
+        author: user?.name ?? "",
+        author_id: post.author_id,
         authorAvatar: "",
         community: post.group_id ?? 0,
-        time: post.timestamp ?? "",
+        timestamp: post.timestamp ?? "",
         body: post.body,
         external_content_url: post.external_content_url,
         likes: 0,
         comments: []
-      }));
-  
-      const user: UserProps = {
-        id: userData.id ?? 0,
-        name: userData.name,
-        email: userData.email,
-        bio: userData.bio,
-        avatar: '',
-        following: 0, // TODO
-        followers: 0, // TODO
-        groups: userGroupsData,
-        posts: userPosts,
-        password_hash: "" // TODO
       };
-  
-      return user;
-  
-      console.log("User groups:", user.groups)
-  
-      console.log('User by ID:', currentUser);
-      console.log('Posts by user:', userPostsData);
-    } catch (error) {
-      console.error('Fetch user by ID error:', error);
-    }
-  }
-
-export async function fetchGroup(group_id: number) {
-    try {
-      const groupResponse = await getGroupByIdGroupGroupIdGet({
-        path: {
-          group_id: group_id,
-        },
-      });
-  
-      const groupData = groupResponse.data as Group;
-  
-      const group: Group = {
-        id: groupData.id ?? 0,
-        name: groupData.name,
-        description: groupData.description ?? "",
-        creation_date: groupData.creation_date ?? "",
-        creator_id: groupData.creator_id ?? 0
-      }
-  
-      console.log('Group by ID:', group);
-      return group;
-    } catch (error) {
-      console.error('Fetch group by ID error:', error);
-    }
-  }
-
-  export async function fetchGroupPosts(group_id: number) {
-    try {
-      const groupPostsResponse = await getPostsByGroupIdGroupGroupIdPostsGet({
-        path: {
-          group_id: group_id,
-        },
-      });
-      
-  
-      const groupPostsData = groupPostsResponse.data as Post[];
-      
-      const groupPosts: PostProps[] = await Promise.all(groupPostsData.map(async post => {        
-        const user = await fetchUserById(post.author_id ?? 0);
-        return {      
-            id: post.id ?? 0,
-            group_id: post.group_id,
-            author: user?.name ?? "",
-            author_id: post.author_id,
-            authorAvatar: "",
-            community: post.group_id ?? 0,
-            timestamp: post.timestamp ?? "",
-            body: post.body,
-            external_content_url: post.external_content_url,
-            likes: 0,
-            comments: []
-        };
     }));
-  
-      return groupPosts;
-    } catch (error) {
-      console.error('Fetch group by ID error:', error);
-    }
+
+    return userPosts;
+  } catch (error) {
+    console.error('Fetch group by ID error:', error);
   }
+}
 
-  export async function fetchUserPosts(user_id: number) {
-    try {
-      const userPostsResponse = await getPostsByUserIdUserUserIdPostsGet({
-        path: {
-          user_id: user_id,
-        },
-      });
-      
-      const userPostsData = userPostsResponse.data as Post[];
-      
-      const userPosts: PostProps[] = await Promise.all(userPostsData.map(async post => {        
-        const user = await fetchUserById(post.author_id ?? 0);
-
-        return {      
-            id: post.id ?? 0,
-            group_id: post.group_id,
-            author: user?.name ?? "",
-            author_id: post.author_id,
-            authorAvatar: "",
-            community: post.group_id ?? 0,
-            timestamp: post.timestamp ?? "",
-            body: post.body,
-            external_content_url: post.external_content_url,
-            likes: 0,
-            comments: []
-        };
-    }));
-  
-      return userPosts;
-    } catch (error) {
-      console.error('Fetch group by ID error:', error);
-    }
-  }
-
-  export async function fetchPostLikes(post_id: number) {
+export async function fetchPostLikes(post_id: number) {
   try {
     const likesResponse = await getLikesByPostIdPostPostIdLikeGet({
       path: {
@@ -253,6 +254,36 @@ export async function fetchGroup(group_id: number) {
     return likes;
   } catch (error) {
     console.error('Fetch likes by post ID error:', error);
+  }
+}
+
+export async function fetchPostComments(post_id: number) {
+  try {
+    const commentsResponse = await getCommentsByPostIdPostPostIdCommentGet({
+      path: {
+        post_id: post_id,
+      },
+    });
+
+    const commentsData = commentsResponse.data as Comment[];
+
+    const comments = await Promise.all(commentsData.map(async (comment) => {
+      const user = await fetchUserById(comment.author_id ?? 0);
+
+      return {
+        id: comment.id,
+        body: comment.body,
+        author_id: comment.author_id ?? 0,
+        authorAvatar: user?.avatar || "",
+        author: user?.name || "",
+        post_id: comment.post_id ?? 0,
+        timestamp: comment.timestamp ?? "",
+      };
+    }));
+
+    return comments;
+  } catch (error) {
+    console.error('Fetch comments by post ID error:', error);
   }
 }
 
@@ -307,17 +338,17 @@ export async function fetchUserBookmarks(user_id: number) {
         user_id: user_id,
       },
     });
-    
-    const userBookmarksData = userBookmarksResponse.data as Bookmark[];
-    
-    const userBookmarks = await Promise.all(userBookmarksData.map(async bookmark => {        
 
-      return {      
-          author_id: bookmark.author_id,
-          post_id: bookmark.post_id,
-          timestamp: bookmark.timestamp ?? "",
+    const userBookmarksData = userBookmarksResponse.data as Bookmark[];
+
+    const userBookmarks = await Promise.all(userBookmarksData.map(async bookmark => {
+
+      return {
+        author_id: bookmark.author_id,
+        post_id: bookmark.post_id,
+        timestamp: bookmark.timestamp ?? "",
       };
-  }));
+    }));
 
     return userBookmarks;
   } catch (error) {
@@ -371,43 +402,43 @@ export async function removeBookmark(post_id: number) {
 
 export async function fetchPostById(post_id: number) {
   try {
-      const response = await getPostByIdPostPostIdGet({
-          path: {
-              post_id: post_id,
-          },
-      })
+    const response = await getPostByIdPostPostIdGet({
+      path: {
+        post_id: post_id,
+      },
+    })
 
-      const postData = response.data as Post
-      const user = await fetchUserById(postData.author_id ?? 0)
+    const postData = response.data as Post
+    const user = await fetchUserById(postData.author_id ?? 0)
 
-      const postProps: PostProps = {
-          id: postData.id ?? 0,
-          group_id: postData.group_id,
-          author: user?.name ?? "",
-          author_id: postData.author_id,
-          authorAvatar: "",
-          timestamp: postData.timestamp ?? "",
-          body: postData.body,
-          external_content_url: postData.external_content_url,
-          likes: 0,
-          comments: []
-      }
-      return postProps
+    const postProps: PostProps = {
+      id: postData.id ?? 0,
+      group_id: postData.group_id,
+      author: user?.name ?? "",
+      author_id: postData.author_id,
+      authorAvatar: "",
+      timestamp: postData.timestamp ?? "",
+      body: postData.body,
+      external_content_url: postData.external_content_url,
+      likes: 0,
+      comments: []
+    }
+    return postProps
   } catch (error) {
-      console.error('Error fetching post:', error)
+    console.error('Error fetching post:', error)
   }
 }
 
 export async function fetchGroupById(group_id: number) {
   try {
-      const response = await getGroupByIdGroupGroupIdGet({
-          path: {
-              group_id: group_id,
-          },
-      })
-      const groupData = response.data as Group
-      return groupData
+    const response = await getGroupByIdGroupGroupIdGet({
+      path: {
+        group_id: group_id,
+      },
+    })
+    const groupData = response.data as Group
+    return groupData
   } catch (error) {
-      console.error('Error fetching group:', error)
+    console.error('Error fetching group:', error)
   }
 }

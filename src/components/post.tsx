@@ -10,7 +10,7 @@ import { PostProps } from "@/app/page"
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from 'date-fns/locale'
 
-import { bookmarkPost, dislikePost, fetchGroup, fetchPostLikes, fetchUserBookmarks, likePost, removeBookmark } from "@/lib/data";
+import { bookmarkPost, dislikePost, fetchGroup, fetchPostComments, fetchPostLikes, fetchUserBookmarks, likePost, removeBookmark } from "@/lib/data";
 
 import { createCommentPostPostIdCommentPost, deletePostByIdPostPostIdDelete, fetchTitleFetchTitleGet } from '@/client/services.gen';
 import { Comment } from '@/client/types.gen';
@@ -109,6 +109,18 @@ function Post({ post, onProfileClick }: IPostProps) {
             setHasBookmarked(userBookmarked ?? false);
         }
         getBookmarks();
+    }, [post.id]);
+
+    useEffect(() => {
+        async function getComments() {
+            const comments = await fetchPostComments(post.id ?? 0) ?? [];
+            post.comments = comments.map(comment => ({
+                ...comment,
+                author: comment.author ?? 'Unknown',
+                authorAvatar: comment.authorAvatar ?? '/default-avatar.png'
+            }));
+        }
+        getComments();
     }, [post.id]);
 
     return (
@@ -255,7 +267,7 @@ function Post({ post, onProfileClick }: IPostProps) {
                                     <Link href="#" onClick={() => onProfileClick(0)} className="font-semibold hover:underline">
                                         {comment.author}
                                     </Link>
-                                    <p>{comment.content}</p>
+                                    <p>{comment.body}</p>
                                 </div>
                             </div>
                         ))}

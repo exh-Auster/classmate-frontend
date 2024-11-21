@@ -6,7 +6,7 @@ import MainContent from '@/components/mainContent'
 // import { /*users,*/ currentUser/*, communities*/ } from '../lib/mock-data';
 import { healthcheckGet } from '../client/services.gen'
 // import { add_groups, add_users } from '../lib/data'
-import { Group, Post, User } from '../client/types.gen'
+import { Comment, Group, Post, User } from '../client/types.gen'
 import { fetchCurrentUser } from '../lib/data'
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -45,11 +45,12 @@ export interface PostProps extends Post {
   author: string,
   authorAvatar:string,
   likes:number,
-  comments:{
-    author:string,
-    authorAvatar:string,
-    content:string
-  }[]
+  comments: CommentProps[]
+}
+
+export interface CommentProps extends Comment {
+  author: string,
+  authorAvatar: string
 }
 
 export interface UserProps extends User {
