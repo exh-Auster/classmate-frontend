@@ -12,7 +12,7 @@ import { ptBR } from 'date-fns/locale'
 
 import { bookmarkPost, dislikePost, fetchGroup, fetchPostLikes, fetchUserBookmarks, likePost, removeBookmark } from "@/lib/data";
 
-import { createCommentPostPostIdCommentPost, fetchTitleFetchTitleGet } from '@/client/services.gen';
+import { createCommentPostPostIdCommentPost, deletePostByIdPostPostIdDelete, fetchTitleFetchTitleGet } from '@/client/services.gen';
 import { Comment } from '@/client/types.gen';
 import { currentUser } from '@/lib/data';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -73,8 +73,17 @@ function Post({ post, onProfileClick }: IPostProps) {
         setHasBookmarked(!hasBookmarked);
     };
 
-    const handleDelete = () => {
-        // TODO
+    const handleDelete = async () => {
+        try {
+            const confirmed = window.confirm('Tem certeza que deseja excluir esta publicação?');
+            if (confirmed) {
+                if (post.id !== undefined && post.id !== null) {
+                    await deletePostByIdPostPostIdDelete({ path: { post_id: post.id } });
+                }
+            }
+        } catch (error) {
+            console.error('Error deleting post:', error);
+        }
     };
 
     useEffect(() => {
