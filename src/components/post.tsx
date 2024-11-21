@@ -256,9 +256,9 @@ function Post({ post, onProfileClick }: IPostProps) {
                 </div>
                 {post.comments.length > 0 && (
                     <div className="w-full mt-4">
-                        <h4 className="font-semibold mb-2">Comentários</h4>
+                        <h4 className="font-semibold mb-5">Comentários</h4>
                         {post.comments.map((comment, index) => (
-                            <div key={index} className="mb-4 flex items-start">
+                            <div key={index} className="mb-3 flex items-start">
                                 <Avatar className="mr-2">
                                     <AvatarImage src={comment.authorAvatar} alt={comment.author} />
                                     <AvatarFallback>{comment.author[0]}</AvatarFallback>
@@ -267,6 +267,10 @@ function Post({ post, onProfileClick }: IPostProps) {
                                     <Link href="#" onClick={() => onProfileClick(0)} className="font-semibold hover:underline">
                                         {comment.author}
                                     </Link>
+                                    <p className="text-sm text-gray-500"> { formatDistanceToNow(new Date(comment.timestamp ?? ""), {
+                                        locale: ptBR,
+                                        addSuffix: true,
+                                    })} </p>
                                     <p>{comment.body}</p>
                                 </div>
                             </div>
