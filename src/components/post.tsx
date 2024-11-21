@@ -130,14 +130,16 @@ function Post({ post, onProfileClick }: IPostProps) {
                             </Link>
                             <p className="text-sm text-gray-500">
                                 {communityName ? (
-                                    communityName
+                                    <>
+                                        {communityName} •{" "}
+                                        {formatDistanceToNow(new Date(post.timestamp ?? ""), {
+                                            locale: ptBR,
+                                            addSuffix: true,
+                                        })}
+                                    </>
                                 ) : (
-                                    <span className="w-24 h-4 bg-gray-300 rounded animate-pulse"></span>
-                                )} •{" "}
-                                {formatDistanceToNow(new Date(post.timestamp ?? ""), {
-                                    locale: ptBR,
-                                    addSuffix: true,
-                                })}
+                                    <span className="inline-block w-30 h-4 bg-gray-200 rounded animate-pulse" />
+                                )}
                             </p>
                         </div>
                     </div>
