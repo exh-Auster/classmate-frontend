@@ -15,10 +15,10 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 
 async function checkHealth() {
   try {
-      const response = await healthcheckGet();
-      console.log('Healthcheck response:', response);
+    const response = await healthcheckGet();
+    console.log('Healthcheck response:', response);
   } catch (error) {
-      console.error('Healthcheck error:', error);
+    console.error('Healthcheck error:', error);
   }
 }
 
@@ -43,8 +43,8 @@ checkHealth()
 
 export interface PostProps extends Post {
   author: string,
-  authorAvatar:string,
-  likes:number,
+  authorAvatar: string,
+  likes: number,
   comments: CommentProps[]
 }
 
