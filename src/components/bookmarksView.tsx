@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import Post from "./post"
+import SkeletonPost from "./SkeletonPost"
 import { PostProps, UserProps } from "@/app/page"
 import { fetchUserBookmarks, fetchPostById, fetchGroupById } from "@/lib/data"
 
@@ -11,10 +12,12 @@ interface BookmarksViewProps {
 function BookmarksView({ currentUser, onProfileClick }: BookmarksViewProps) {
     const [bookmarkedPosts, setBookmarkedPosts] = useState<PostProps[]>([])
     const [groupedPosts, setGroupedPosts] = useState<{ [key: number]: PostProps[] }>({})
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     useEffect(() => {
         const getBookmarkedPosts = async () => {
             try {
+                setIsLoading(true)
                 const bookmarks = await fetchUserBookmarks(currentUser.id ?? 0)
                 if (bookmarks) {
                     const posts = await Promise.all(
@@ -27,6 +30,8 @@ function BookmarksView({ currentUser, onProfileClick }: BookmarksViewProps) {
                 }
             } catch (error) {
                 console.error('Error fetching bookmarked posts:', error)
+            } finally {
+                setIsLoading(false)
             }
         }
 
@@ -54,9 +59,17 @@ function BookmarksView({ currentUser, onProfileClick }: BookmarksViewProps) {
     return (
         <div>
             <h3 className="text-xl font-semibold mb-4">Lista de Leitura</h3>
-            {Object.entries(groupedPosts).map(([groupId, posts]) => (
-                <GroupSection key={groupId} groupId={Number(groupId)} posts={posts} onProfileClick={onProfileClick} />
-            ))}
+            {isLoading ? (
+                <>
+                    <SkeletonPost />
+                    <SkeletonPost />
+                    <SkeletonPost />
+                </>
+            ) : (
+                Object.entries(groupedPosts).map(([groupId, posts]) => (
+                    <GroupSection key={groupId} groupId={Number(groupId)} posts={posts} onProfileClick={onProfileClick} />
+                ))
+            )}
         </div>
     )
 }
