@@ -7,7 +7,7 @@ import { Card, CardHeader, CardContent, CardFooter } from "./ui/card"
 import Link from "next/link"
 import { PostProps } from "@/app/page"
 
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, subHours } from "date-fns";
 import { ptBR } from 'date-fns/locale'
 
 import { bookmarkPost, dislikePost, fetchGroup, fetchPostComments, fetchPostLikes, fetchUserBookmarks, likePost, removeBookmark } from "@/lib/data";
@@ -144,7 +144,7 @@ function Post({ post, onProfileClick }: IPostProps) {
                                 {communityName ? (
                                     <>
                                         {communityName} •{" "}
-                                        {formatDistanceToNow(new Date(post.timestamp ?? ""), {
+                                        {formatDistanceToNow(subHours(new Date(post.timestamp ?? ""), 3), {
                                             locale: ptBR,
                                             addSuffix: true,
                                         })}
