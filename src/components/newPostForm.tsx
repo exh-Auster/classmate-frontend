@@ -46,7 +46,7 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
 
     return (
         <Card>
-            <CardContent className="p-4">
+            <CardContent className="p-4" data-testid="new-post-form">
                 <Textarea
                     placeholder="O que você quer compartilhar hoje?"
                     className="mb-4"

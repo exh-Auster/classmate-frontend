@@ -62,9 +62,9 @@ function CommunityView({ community, onProfileClick }: ComunityViewProps) {
                 </>
             ) : (
                 <>
-                    <h2 className="text-2xl font-semibold mb-4">{group?.name}</h2>
-                    <p className="mb-6">{group?.description}</p>
-                    <NewPostForm communities={currentUser.groups} fixedCommunity={group?.id} />
+                    <h2 className="text-2xl font-semibold mb-4" data-testid="group-title">{group?.name}</h2>
+                    <p className="mb-6" data-testid="group-description">{group?.description}</p>
+                    <NewPostForm communities={currentUser.groups} fixedCommunity={group?.id}/>
                     <div className="mt-6">
                         {sortedPosts.map((post) => (
                             <Post key={post.id} post={post} onProfileClick={onProfileClick} />

@@ -126,7 +126,7 @@ function Post({ post, onProfileClick }: IPostProps) {
     return (
         <Card className="mb-4">
             <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between" data-testid="post-item">
                     <div className="flex items-center">
                         <Avatar className="mr-2">
                             <AvatarImage src={post.authorAvatar} alt={post.author} />
