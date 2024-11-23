@@ -6,7 +6,6 @@ import { Button } from "./ui/button"
 import { Card, CardHeader } from "./ui/card"
 import { PostProps, UserProps } from "@/app/page"
 import { fetchUserById, fetchUserPosts } from "@/lib/data"
-// import { posts } from '../lib/mock-data';
 
 interface ProfileViewProps {
     profile: number | null,
@@ -17,7 +16,6 @@ interface ProfileViewProps {
 function ProfileView({ profile, currentUser, onProfileClick }: ProfileViewProps) {
     const isCurrentUser = profile === currentUser.id
     const [isFollowing, setIsFollowing] = useState(false)
-    // const profilePosts = currentUser.posts ?? [] // .filter(post => post.author === profile)
 
     const [userPosts, setUserPosts] = useState<PostProps[]>([])
     const [user, setUserInfo] = useState<UserProps | null>(null)
@@ -25,7 +23,7 @@ function ProfileView({ profile, currentUser, onProfileClick }: ProfileViewProps)
     const handleDeletePost = (postId: number) => {
         setUserPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
     }
-    
+
     console.log(profile)
     useEffect(() => {
         const getUserPosts = async () => {
@@ -108,7 +106,7 @@ function ProfileView({ profile, currentUser, onProfileClick }: ProfileViewProps)
             <h3 className="text-xl font-semibold mb-4">Publicações Recentes</h3>
             <div>
                 {sortedPosts.map((post) => (
-                    <Post key={post.id} post={post} onProfileClick={onProfileClick} onDeletePost={handleDeletePost}/>
+                    <Post key={post.id} post={post} onProfileClick={onProfileClick} onDeletePost={handleDeletePost} />
                 ))}
             </div>
         </div>

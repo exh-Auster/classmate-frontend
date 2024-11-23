@@ -6,7 +6,6 @@ import Post from "./post"
 import { PostProps } from '@/app/page'
 import SkeletonPost from './SkeletonPost'
 import SkeletonGroupInfo from './SkeletonGroupInfo'
-// import { currentUser } from '@/lib/mock-data'
 
 interface CommunityViewProps {
     community: number,

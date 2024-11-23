@@ -3,15 +3,10 @@
 import { useState, useEffect } from 'react'
 import Sidebar from '@/components/sidebar'
 import MainContent from '@/components/mainContent'
-// import { /*users,*/ currentUser/*, communities*/ } from '../lib/mock-data';
 import { healthcheckGet } from '../client/services.gen'
-// import { add_groups, add_users } from '../lib/data'
 import { Comment, Group, Post, User } from '../client/types.gen'
 import { fetchCurrentUser } from '../lib/data'
 import { SpeedInsights } from '@vercel/speed-insights/next';
-
-// add_users()
-// add_groups()
 
 async function checkHealth() {
   try {
@@ -22,24 +17,7 @@ async function checkHealth() {
   }
 }
 
-// async function sendNewUser() {
-//   const newUser = {
-//     name: "John Doe",
-//     email: "john.doe@example.com",
-//     password_hash: "hashed_password",
-//     bio: "This is a bio",
-//   };
-
-//   try {
-//     const response = await createUserUserPost({ body: newUser });
-//     console.log('New user created:', response.data);
-//   } catch (error) {
-//     console.error('Error creating new user:', error);
-//   }
-// }
-
 checkHealth()
-// sendNewUser()
 
 export interface PostProps extends Post {
   author: string,

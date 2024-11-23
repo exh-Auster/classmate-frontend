@@ -4,7 +4,6 @@ import { UserProps } from "@/app/page"
 import { MouseEventHandler } from "react"
 import { Button } from "./ui/button"
 import { LogOut } from "lucide-react"
-// import { currentUser } from "@/app/page"
 
 interface UserCardProps {
     user: UserProps,

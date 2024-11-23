@@ -29,7 +29,7 @@ interface IPostProps {
     onDeletePost: (postId: number) => void
 }
 
-function Post({ post, onProfileClick, onDeletePost }: IPostProps) { 
+function Post({ post, onProfileClick, onDeletePost }: IPostProps) {
     const [newComment, setNewComment] = useState('')
     const [communityName, setCommunityName] = useState<string | undefined>('')
     const [likesCount, setLikesCount] = useState<number>(post.likes)
