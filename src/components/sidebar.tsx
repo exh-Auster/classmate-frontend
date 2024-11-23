@@ -1,4 +1,4 @@
-import { BookMarkedIcon, Home, LogOut, Settings } from "lucide-react"
+import { BookMarkedIcon, Home, Settings } from "lucide-react"
 import { Button } from "./ui/button"
 import UserCard from "./userCard"
 import { UserProps } from "@/app/page"
