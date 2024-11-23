@@ -26,9 +26,10 @@ interface ExtendedComment extends Comment {
 interface IPostProps {
     post: PostProps,
     onProfileClick: (param: number) => void,
+    onDeletePost: (postId: number) => void
 }
 
-function Post({ post, onProfileClick }: IPostProps) {
+function Post({ post, onProfileClick, onDeletePost }: IPostProps) { 
     const [newComment, setNewComment] = useState('')
     const [communityName, setCommunityName] = useState<string | undefined>('')
     const [likesCount, setLikesCount] = useState<number>(post.likes)
@@ -85,6 +86,7 @@ function Post({ post, onProfileClick }: IPostProps) {
             if (confirmed) {
                 if (post.id !== undefined && post.id !== null) {
                     await deletePostByIdPostPostIdDelete({ path: { post_id: post.id } });
+                    onDeletePost(post.id);
                 }
             }
         } catch (error) {

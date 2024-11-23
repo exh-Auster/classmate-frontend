@@ -115,7 +115,7 @@ function GroupSection({ groupId, posts, onProfileClick }: GroupSectionProps) {
             {!isCollapsed && (
                 <div className="mt-2">
                     {posts.map((post) => (
-                        <Post key={post.id} post={post} onProfileClick={onProfileClick} />
+                        <Post key={post.id} post={post} onProfileClick={onProfileClick} onDeletePost={() => {}}/>
                     ))}
                 </div>
             )}

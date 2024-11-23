@@ -8,12 +8,12 @@ import SkeletonPost from './SkeletonPost'
 import SkeletonGroupInfo from './SkeletonGroupInfo'
 // import { currentUser } from '@/lib/mock-data'
 
-interface ComunityViewProps {
+interface CommunityViewProps {
     community: number,
     onProfileClick: (param: number) => void
 }
 
-function CommunityView({ community, onProfileClick }: ComunityViewProps) {
+function CommunityView({ community, onProfileClick }: CommunityViewProps) {
     const [communityPosts, setCommunityPosts] = useState<PostProps[]>([])
     const [group, setGroupInfo] = useState<Group | null>(null)
     const [loading, setLoading] = useState(true);
@@ -49,6 +49,10 @@ function CommunityView({ community, onProfileClick }: ComunityViewProps) {
         fetchData();
     }
 
+    const handleDeletePost = (postId: number) => {
+        setCommunityPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
+    }
+
     return (
         <div>
             {loading ? (
@@ -66,10 +70,19 @@ function CommunityView({ community, onProfileClick }: ComunityViewProps) {
                 <>
                     <h2 className="text-2xl font-semibold mb-4" data-testid="group-title">{group?.name}</h2>
                     <p className="mb-6" data-testid="group-description">{group?.description}</p>
-                    <NewPostForm communities={currentUser.groups} fixedCommunity={group?.id} onNewPost={handleNewPost} />
+                    <NewPostForm
+                        communities={currentUser.groups}
+                        fixedCommunity={group?.id}
+                        onNewPost={handleNewPost}
+                    />
                     <div className="mt-6">
                         {sortedPosts.map((post) => (
-                            <Post key={post.id} post={post} onProfileClick={onProfileClick} />
+                            <Post
+                                key={post.id}
+                                post={post}
+                                onProfileClick={onProfileClick}
+                                onDeletePost={handleDeletePost}
+                            />
                         ))}
                     </div>
                 </>

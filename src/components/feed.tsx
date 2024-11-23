@@ -39,6 +39,10 @@ function Feed({ communities, onProfileClick }: FeedProps) {
         fetchAllPosts();
     }
 
+    const handleDeletePost = (postId: number) => {
+        setPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
+    }
+
     return (
         <div>
             <NewPostForm communities={communities} onNewPost={handleNewPost} />
@@ -53,7 +57,12 @@ function Feed({ communities, onProfileClick }: FeedProps) {
                     </div>
                 ) : (
                     posts.map((post) => (
-                        <Post key={post.id} post={post} onProfileClick={onProfileClick} />
+                        <Post
+                            key={post.id}
+                            post={post}
+                            onProfileClick={onProfileClick}
+                            onDeletePost={handleDeletePost}
+                        />
                     ))
                 )}
             </div>
