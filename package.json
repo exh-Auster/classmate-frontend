@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.53.12",
+    "@playwright/test": "^1.49.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
