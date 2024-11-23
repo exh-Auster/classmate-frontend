@@ -18,6 +18,11 @@ import { currentUser } from '@/lib/data';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { BookmarkFilledIcon } from "@radix-ui/react-icons"
 
+interface ExtendedComment extends Comment {
+    author: string
+    authorAvatar: string
+}
+
 interface IPostProps {
     post: PostProps,
     onProfileClick: (param: number) => void,
@@ -30,6 +35,7 @@ function Post({ post, onProfileClick }: IPostProps) {
     const [hasLiked, setHasLiked] = useState(false);
     const [hasBookmarked, setHasBookmarked] = useState(false);
     const [pageTitle, setPageTitle] = useState('');
+    const [comments, setComments] = useState<ExtendedComment[]>([])
 
     useEffect(() => {
         async function fetchPageTitle() {
@@ -87,7 +93,7 @@ function Post({ post, onProfileClick }: IPostProps) {
     };
 
     useEffect(() => {
-        fetchGroup(post.group_id ?? 0).then(group => {
+        fetchGroup(post.group_id ?? 0).then((group) => {
             setCommunityName(group?.name);
         });
     }, [post.group_id]);
@@ -113,15 +119,44 @@ function Post({ post, onProfileClick }: IPostProps) {
 
     useEffect(() => {
         async function getComments() {
-            const comments = await fetchPostComments(post.id ?? 0) ?? [];
-            post.comments = comments.map(comment => ({
+            const fetchedComments = (await fetchPostComments(post.id ?? 0)) ?? []
+            const formattedComments: ExtendedComment[] = fetchedComments.map((comment) => ({
                 ...comment,
                 author: comment.author ?? 'Unknown',
-                authorAvatar: comment.authorAvatar ?? '/default-avatar.png'
-            }));
+                authorAvatar: comment.authorAvatar ?? '/default-avatar.png',
+            }))
+            setComments(formattedComments)
         }
-        getComments();
-    }, [post.id]);
+        getComments()
+    }, [post.id])
+
+    const handleAddComment = async () => {
+        if (!newComment.trim()) return
+
+        const comment: Comment = {
+            body: newComment,
+            author_id: currentUser.id ?? 0,
+            post_id: post.id,
+            timestamp: new Date().toISOString(),
+        }
+
+        try {
+            await createCommentPostPostIdCommentPost({
+                body: comment,
+                path: { post_id: post.id ?? 0 },
+            })
+            setNewComment("")
+            const updatedComments = (await fetchPostComments(post.id ?? 0)) ?? []
+            const formattedUpdatedComments: ExtendedComment[] = updatedComments.map((c) => ({
+                ...c,
+                author: c.author ?? "Unknown",
+                authorAvatar: c.authorAvatar ?? "/default-avatar.png",
+            }))
+            setComments(formattedUpdatedComments)
+        } catch (error) {
+            console.error("Error creating comment:", error)
+        }
+    }
 
     return (
         <Card className="mb-4">
@@ -202,7 +237,7 @@ function Post({ post, onProfileClick }: IPostProps) {
                         {likesCount}
                     </Button>
                     <Button variant="ghost" size="sm">
-                        <MessageSquare className="h-4 w-4 mr-1" /> {post.comments.length}
+                        <MessageSquare className="h-4 w-4 mr-1" /> {comments.length}
                     </Button>
                     <Button variant="ghost" size="sm">
                         <Share2 className="h-4 w-4 mr-1" /> Compartilhar
@@ -230,47 +265,34 @@ function Post({ post, onProfileClick }: IPostProps) {
                     <Button
                         size="sm"
                         disabled={!newComment.trim()}
-                        onClick={async () => {
-                            if (!newComment.trim()) return;
-
-                            const comment: Comment = {
-                                body: newComment,
-                                author_id: currentUser.id ?? 0,
-                                post_id: post.id,
-                                timestamp: new Date().toISOString(),
-                            };
-
-                            try {
-                                await createCommentPostPostIdCommentPost({
-                                    body: comment,
-                                    path: { post_id: post.id ?? 0 },
-                                });
-                                setNewComment('');
-                            } catch (error) {
-                                console.error('Error creating comment:', error);
-                            }
-                        }}
+                        onClick={handleAddComment}
                     >
                         Enviar
                     </Button>
                 </div>
-                {post.comments.length > 0 && (
+                {comments.length > 0 && (
                     <div className="w-full mt-4">
                         <h4 className="font-semibold mb-5">Comentários</h4>
-                        {post.comments.map((comment, index) => (
+                        {comments.map((comment, index) => (
                             <div key={index} className="mb-3 flex items-start">
                                 <Avatar className="mr-2">
                                     <AvatarImage src={comment.authorAvatar} alt={comment.author} />
                                     <AvatarFallback>{comment.author[0]}</AvatarFallback>
                                 </Avatar>
                                 <div>
-                                    <Link href="#" onClick={() => onProfileClick(0)} className="font-semibold hover:underline">
+                                    <Link
+                                        href="#"
+                                        onClick={() => onProfileClick(comment.author_id ?? 0)}
+                                        className="font-semibold hover:underline"
+                                    >
                                         {comment.author}
                                     </Link>
-                                    <p className="text-sm text-gray-500"> { formatDistanceToNow(new Date(comment.timestamp ?? ""), {
-                                        locale: ptBR,
-                                        addSuffix: true,
-                                    })} </p>
+                                    <p className="text-sm text-gray-500">
+                                        {formatDistanceToNow(subHours(new Date(comment.timestamp ?? ""), 3), {
+                                            locale: ptBR,
+                                            addSuffix: true,
+                                        })}
+                                    </p>
                                     <p>{comment.body}</p>
                                 </div>
                             </div>
