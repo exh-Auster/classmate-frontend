@@ -207,24 +207,26 @@ function Post({ post, onProfileClick, onDeletePost }: IPostProps) {
             </CardHeader>
             <CardContent>
                 <p>{post.body}</p>
-                <br />
                 {post.external_content_url && (
-                    <div className={`inline-block p-2 bg-gray-100 rounded-md ${!pageTitle ? 'animate-pulse' : ''}`}>
-                        {pageTitle ? (
-                            <a
-                                href={post.external_content_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center text-blue-500 hover:underline"
-                            >
-                                <ExternalLink className="h-4 w-4 mr-1" /> {pageTitle}
-                            </a>
-                        ) : (
-                            <div className="flex items-center">
-                                <ExternalLink className="h-4 w-4 mr-1" /> <span className="w-24 h-4 bg-gray-300 rounded"></span>
-                            </div>
-                        )}
-                    </div>
+                    <>
+                        <br />
+                        <div className={`inline-block p-2 bg-gray-100 rounded-md ${!pageTitle ? 'animate-pulse' : ''}`}>
+                            {pageTitle ? (
+                                <a
+                                    href={post.external_content_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center text-blue-500 hover:underline"
+                                >
+                                    <ExternalLink className="h-4 w-4 mr-1" /> {pageTitle}
+                                </a>
+                            ) : (
+                                <div className="flex items-center">
+                                    <ExternalLink className="h-4 w-4 mr-1" /> <span className="w-24 h-4 bg-gray-300 rounded"></span>
+                                </div>
+                            )}
+                        </div>
+                    </>
                 )}
             </CardContent>
             <CardFooter className="flex flex-col">
