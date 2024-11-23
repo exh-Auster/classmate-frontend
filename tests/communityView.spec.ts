@@ -25,7 +25,7 @@ test('should display newPostForm', async ({ page }) => {
 });
 
 test('should display posts on the community view', async ({ page }) => {
-    await page.goto('http://localhost:3000');
+    await page.goto('https://classmate-front.vercel.app/');
 
     await page.click('[data-testid="group-link"]:first-of-type');
 
