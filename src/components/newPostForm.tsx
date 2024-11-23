@@ -26,7 +26,7 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
 
     const handleSubmit = async () => {
         if (!postContent.trim()) return
-    
+
         const newPost = {
             body: postContent,
             external_content_url: postLink || null,
@@ -34,7 +34,7 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
             group_id: fixedCommunity ?? selectedCommunity ?? undefined,
             timestamp: new Date().toISOString(),
         }
-    
+
         try {
             await createPostPostPost({ body: newPost })
             setPostContent('')
@@ -52,6 +52,7 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
                     className="mb-4"
                     value={postContent}
                     onChange={(e) => setPostContent(e.target.value)}
+                    data-testid="post-body-input-field"
                 />
                 <Input
                     type="text"
@@ -59,6 +60,7 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
                     className="mb-4"
                     value={postLink}
                     onChange={(e) => setPostLink(e.target.value)}
+                    data-testid="post-external-url-input-field"
                 />
                 <div className="flex justify-between items-center">
                     <div className="flex space-x-2">
@@ -75,7 +77,7 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
                         ) : (
                             <Select onValueChange={(value) => setSelectedCommunity(Number(value))}>
                                 <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Selecionar disciplina" />
+                                    <SelectValue placeholder="Selecionar disciplina" data-testid="new-post-group-selection-dropdown" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {communities.map((community) => (
@@ -86,7 +88,13 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
                                 </SelectContent>
                             </Select>
                         )}
-                        <Button disabled={!postContent.trim() || !selectedCommunity} onClick={handleSubmit}>Publicar</Button>
+                        <Button
+                            disabled={!postContent.trim() || !selectedCommunity}
+                            onClick={handleSubmit}
+                            data-testid="post-button"
+                        >
+                            Publicar
+                        </Button>
                     </div>
                 </div>
             </CardContent>

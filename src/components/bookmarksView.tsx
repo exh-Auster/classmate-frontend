@@ -58,7 +58,7 @@ function BookmarksView({ currentUser, onProfileClick }: BookmarksViewProps) {
 
     return (
         <div>
-            <h3 className="text-xl font-semibold mb-4">Lista de Leitura</h3>
+            <h3 className="text-xl font-semibold mb-4" data-testid="bookmarks-header">Lista de Leitura</h3>
             {isLoading ? (
                 <>
                     <SkeletonPost />
