@@ -54,10 +54,6 @@ function Sidebar({ user, onCommunityClick, onProfileClick, onHomeClick, onBookma
                     <Settings className="mr-2 h-4 w-4" />
                     Configurações
                 </Button>
-                <Button variant="ghost" /*onClick={}*/ disabled>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Desconectar
-                </Button>
             </div>
         </div>
     )
