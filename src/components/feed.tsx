@@ -15,29 +15,33 @@ function Feed({ communities, onProfileClick }: FeedProps) {
     const [posts, setPosts] = useState<PostProps[]>([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchAllPosts = async () => {
-            try {
-                const allPosts: PostProps[] = [];
-                for (const community of communities) {
-                    const groupPosts = await fetchGroupPosts(community.id ?? 0);
-                    allPosts.push(...groupPosts ?? []);
-                }
-                const sortedPosts = allPosts.sort((a, b) => new Date(b.timestamp!).getTime() - new Date(a.timestamp!).getTime());
-                setPosts(sortedPosts);
-            } catch (error) {
-                console.error('Error fetching posts:', error);
-            } finally {
-                setLoading(false);
+    const fetchAllPosts = async () => {
+        try {
+            const allPosts: PostProps[] = [];
+            for (const community of communities) {
+                const groupPosts = await fetchGroupPosts(community.id ?? 0);
+                allPosts.push(...groupPosts ?? []);
             }
-        };
+            const sortedPosts = allPosts.sort((a, b) => new Date(b.timestamp!).getTime() - new Date(a.timestamp!).getTime());
+            setPosts(sortedPosts);
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchAllPosts();
     }, [communities]);
 
+    const handleNewPost = () => {
+        fetchAllPosts();
+    }
+
     return (
         <div>
-            <NewPostForm communities={communities} />
+            <NewPostForm communities={communities} onNewPost={handleNewPost} />
             <div className="mt-6">
                 {loading ? (
                     <div className="space-y-4">

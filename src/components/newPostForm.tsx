@@ -13,9 +13,10 @@ import { currentUser } from "@/lib/data"
 interface NewPostFormProps {
     communities: Group[],
     fixedCommunity?: number | null
+    onNewPost: () => void
 }
 
-function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
+function NewPostForm({ communities, fixedCommunity = null, onNewPost }: NewPostFormProps) {
     const [postContent, setPostContent] = useState('')
     const [postLink, setPostLink] = useState('')
     const [selectedCommunity, setSelectedCommunity] = useState<number | null>(fixedCommunity)
@@ -39,6 +40,7 @@ function NewPostForm({ communities, fixedCommunity = null }: NewPostFormProps) {
             await createPostPostPost({ body: newPost })
             setPostContent('')
             setPostLink('')
+            onNewPost()
         } catch (error) {
             console.error("Error creating post:", error)
         }

@@ -18,34 +18,36 @@ function CommunityView({ community, onProfileClick }: ComunityViewProps) {
     const [group, setGroupInfo] = useState<Group | null>(null)
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [postsResponse, groupResponse] = await Promise.all([
-                    fetchGroupPosts(community ?? 0),
-                    fetchGroup(community ?? 0),
-                ]);
-
-                if (postsResponse) {
-                    setCommunityPosts(postsResponse);
-                }
-
-                if (groupResponse) {
-                    setGroupInfo(groupResponse);
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setLoading(false);
+    const fetchData = async () => {
+        try {
+            const [postsResponse, groupResponse] = await Promise.all([
+                fetchGroupPosts(community ?? 0),
+                fetchGroup(community ?? 0),
+            ]);
+            if (postsResponse) {
+                setCommunityPosts(postsResponse);
             }
-        };
+            if (groupResponse) {
+                setGroupInfo(groupResponse);
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchData();
     }, [community]);
 
     const sortedPosts = communityPosts.sort(
         (a, b) => new Date(b.timestamp ?? "").getTime() - new Date(a.timestamp ?? "").getTime()
     )
+
+    const handleNewPost = () => {
+        fetchData();
+    }
 
     return (
         <div>
@@ -64,7 +66,7 @@ function CommunityView({ community, onProfileClick }: ComunityViewProps) {
                 <>
                     <h2 className="text-2xl font-semibold mb-4" data-testid="group-title">{group?.name}</h2>
                     <p className="mb-6" data-testid="group-description">{group?.description}</p>
-                    <NewPostForm communities={currentUser.groups} fixedCommunity={group?.id}/>
+                    <NewPostForm communities={currentUser.groups} fixedCommunity={group?.id} onNewPost={handleNewPost} />
                     <div className="mt-6">
                         {sortedPosts.map((post) => (
                             <Post key={post.id} post={post} onProfileClick={onProfileClick} />
