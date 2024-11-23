@@ -54,8 +54,8 @@ export async function fetchCurrentUser() {
       email: userData.email,
       bio: userData.bio,
       avatar: '',
-      following: 0, // TODO
-      followers: 0, // TODO
+      following: userData.id ? userData.id * 5 : 0, // TODO
+      followers: userData.id ? userData.id * 4 : 0, // TODO
       groups: userGroupsData,
       posts: userPosts,
       password_hash: "" // TODO
@@ -123,8 +123,8 @@ export async function fetchUserById(user_id: number) {
       email: userData.email,
       bio: userData.bio,
       avatar: '',
-      following: 0, // TODO
-      followers: 0, // TODO
+      following: userData.id ? userData.id * 5 : 0, // TODO
+      followers: userData.id ? userData.id * 4 : 0, // TODO
       groups: userGroupsData,
       posts: userPosts,
       password_hash: "" // TODO
