@@ -1,8 +1,10 @@
 import { test, expect } from '@playwright/test';
 
-test('sidebar groups should match newPostForm\'s dropdown', async ({ page }) => {
-  await page.goto('https://classmate-front.vercel.app/');
+test.beforeEach(async ({ page }) => {
+    await page.goto('https://classmate-front.vercel.app/');
+  });
 
+test('sidebar groups should match newPostForm\'s dropdown', async ({ page }) => {
   // Extract group names from the sidebar
   const sidebarGroups = await page.$$eval('[data-testid="community-link"]', elements =>
     elements.map(el => el.textContent?.trim()).filter(Boolean)

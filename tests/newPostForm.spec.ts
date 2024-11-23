@@ -1,8 +1,10 @@
 import { test, expect } from '@playwright/test';
 
-test('post button should stay disabled until there is text input and group selection', async ({ page }) => {
-  await page.goto('https://classmate-front.vercel.app/');
+test.beforeEach(async ({ page }) => {
+    await page.goto('https://classmate-front.vercel.app/');
+  });
 
+test('post button should stay disabled until there is text input and group selection', async ({ page }) => {
   const postButton = page.getByTestId('post-button');
 
   await expect(postButton).toBeDisabled();
