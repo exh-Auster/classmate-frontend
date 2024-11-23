@@ -17,12 +17,12 @@ function Feed({ communities, onProfileClick }: FeedProps) {
 
     const fetchAllPosts = async () => {
         try {
-            const allPosts: PostProps[] = [];
-            for (const community of communities) {
-                const groupPosts = await fetchGroupPosts(community.id ?? 0);
-                allPosts.push(...groupPosts ?? []);
-            }
-            const sortedPosts = allPosts.sort((a, b) => new Date(b.timestamp!).getTime() - new Date(a.timestamp!).getTime());
+            const postPromises = communities.map(community => fetchGroupPosts(community.id ?? 0));
+            const allGroupPosts = await Promise.all(postPromises);
+            const allPosts: PostProps[] = allGroupPosts.flat().filter((post): post is PostProps => post !== undefined);
+            const sortedPosts = allPosts.sort(
+                (a, b) => new Date(b.timestamp!).getTime() - new Date(a.timestamp!).getTime()
+            );
             setPosts(sortedPosts);
         } catch (error) {
             console.error('Error fetching posts:', error);
