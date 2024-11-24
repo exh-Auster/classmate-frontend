@@ -92,6 +92,7 @@ function NewPostForm({ communities, fixedCommunity = null, onNewPost }: NewPostF
                         )}
                         <Button
                             disabled={!postContent.trim() || !selectedCommunity}
+                            className={`${!postContent.trim() || !selectedCommunity ? 'bg-gray-500 text-white' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
                             onClick={handleSubmit}
                             data-testid="post-button"
                         >

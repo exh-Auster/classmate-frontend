@@ -269,6 +269,7 @@ function Post({ post, onProfileClick, onDeletePost }: IPostProps) {
                     <Button
                         size="sm"
                         disabled={!newComment.trim()}
+                        className={`${!newComment.trim() ? 'bg-gray-500 text-white' : 'bg-blue-500 text-white hover:bg-blue-600'}`}
                         onClick={handleAddComment}
                     >
                         Enviar
