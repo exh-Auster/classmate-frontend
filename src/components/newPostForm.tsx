@@ -78,7 +78,7 @@ function NewPostForm({ communities, fixedCommunity = null, onNewPost }: NewPostF
                             <div className="text-sm text-gray-500">Publicando em: {fixedCommunityName}</div>
                         ) : (
                             <Select onValueChange={(value) => setSelectedCommunity(Number(value))}>
-                                <SelectTrigger className="w-[180px]">
+                                <SelectTrigger className="w-[250px]">
                                     <SelectValue placeholder="Selecionar disciplina" data-testid="new-post-group-selection-dropdown" />
                                 </SelectTrigger>
                                 <SelectContent>
